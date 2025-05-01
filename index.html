@@ -8,44 +8,63 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Fix contrast issues with iframe technique */
-        body, html {
+        body {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow-x: hidden;
-            overflow-y: auto;
-            background: #000;
+            background-color: #000;
         }
         
-        #background-frame {
+        video#bgVideo {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border: none;
             z-index: -1000;
-            pointer-events: none;
+            object-fit: cover;
+            object-position: center;
         }
         
         .container {
             position: relative;
-            z-index: 1;
-            min-height: auto; /* Reset height */
-            padding-top: 20px; /* Add normal padding */
+            z-index: 2;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: -999;
         }
     </style>
 </head>
 <body>
-    <!-- Use iframe for background to completely isolate it from scroll events -->
-    <iframe id="background-frame" src="background.html" title="background"></iframe>
+    <video id="bgVideo" autoplay muted loop>
+        <source src="video/video.mp4" type="video/mp4">
+    </video>
+    
+    <div class="overlay"></div>
+    
+    <!-- Background audio -->
+    <audio id="bgAudio" autoplay loop>
+        <source src="audio/audio.mp3" type="audio/mpeg">
+    </audio>
+    
+    <!-- Audio controls -->
+    <div style="position: fixed; bottom: 10px; right: 10px; z-index: 100; background-color: rgba(0,0,0,0.5); padding: 5px; border-radius: 5px;">
+        <button id="audioToggle" style="background: none; border: none; color: white; cursor: pointer;">
+            <i class="fas fa-volume-mute"></i> Music
+        </button>
+    </div>
 
     <div class="container">
         <div class="parent">
             <!-- Profile -->
             <div class="div1 profile">
-                <h1>Daniela Armas</h1>
+                <h1>Daniela Armaș</h1>
                 <p class="bio">Digital Creator | Content Creator</p>
             </div>
             
@@ -133,19 +152,53 @@
         </div>
     </div>
 
-    <!-- Script to handle basics without modifying video appearance -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var video = document.getElementById('bgVideo');
-            var cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div12, .div13, .div14, .div15, .div16');
+            // Auto-start background music
+            var bgAudio = document.getElementById('bgAudio');
+            var audioToggle = document.getElementById('audioToggle');
+            var audioIcon = audioToggle.querySelector('i');
             
-            // Try to play video
-            video.play().catch(function(error) {
-                console.log('Autoplay prevented:', error);
-                document.body.addEventListener('click', function() {
-                    video.play().catch(function() {});
-                }, { once: true });
+            // Try to play audio automatically
+            const playPromise = bgAudio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay started successfully
+                    audioIcon.className = 'fas fa-volume-up';
+                    console.log('Audio started automatically');
+                }).catch(error => {
+                    // Autoplay was prevented
+                    console.log('Autoplay prevented:', error);
+                    
+                    // Add click event to the entire document to start audio on first interaction
+                    document.addEventListener('click', function startAudio() {
+                        bgAudio.play().then(() => {
+                            audioIcon.className = 'fas fa-volume-up';
+                            console.log('Audio started on user interaction');
+                        }).catch(e => console.log('Audio start failed:', e));
+                        
+                        // Remove the event listener after first click
+                        document.removeEventListener('click', startAudio);
+                    });
+                });
+            }
+            
+            // Audio toggle button functionality
+            audioToggle.addEventListener('click', function(e) {
+                e.stopPropagation(); // Prevent triggering the document click handler
+                
+                if (bgAudio.paused) {
+                    bgAudio.play();
+                    audioIcon.className = 'fas fa-volume-up';
+                } else {
+                    bgAudio.pause();
+                    audioIcon.className = 'fas fa-volume-mute';
+                }
             });
+            
+            // Enable the click effect on cards
+            var cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div12, .div13, .div14, .div15, .div16');
             
             // Add click sound effect
             function addClickSound() {
@@ -155,7 +208,7 @@
                 clickSound.style.display = 'none';
                 
                 const source = document.createElement('source');
-                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
+                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
                 source.type = 'audio/mp3';
                 clickSound.appendChild(source);
                 document.body.appendChild(clickSound);
@@ -164,26 +217,8 @@
             
             const clickSound = addClickSound();
             
-            // Add card interaction
+            // Add interactive effects to cards
             cards.forEach(function(card) {
-                // Add 3D tilt effect
-                card.addEventListener('mousemove', function(e) {
-                    const rect = this.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    
-                    const rotateX = (y - centerY) / 10;
-                    const rotateY = (centerX - x) / 10;
-                    
-                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-                });
-                
                 // Add sound effect on click
                 card.addEventListener('click', function() {
                     clickSound.currentTime = 0;

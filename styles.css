@@ -24,7 +24,7 @@ html {
 body {
     color: #333;
     line-height: 1.6;
-    background-color: #000; /* Fallback color if video fails */
+    background-color: #000; /* Fallback color */
     min-height: 100%;
     width: 100%;
     position: relative;
@@ -34,9 +34,13 @@ body {
     overflow: hidden; /* Hide body scrollbar */
 }
 
-/* Remove old video background styles to prevent conflicts */
+/* Video background styles */
 .video-background, .video-background video, .overlay {
-    display: none !important;
+    /* Override all existing video styles */
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
 }
 
 /* Background color in case video fails */
@@ -493,19 +497,6 @@ body {
 
 /* iOS-specific fixes */
 @supports (-webkit-touch-callout: none) {
-    .video-background {
-        position: fixed;
-        height: 100%;
-        width: 100%;
-    }
-    
-    .video-background video {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-    
     /* iOS doesn't support backdrop-filter well in all versions */
     .div1, .div2, .div3, .div4, .div5, .div6, .div12, .div13, .div14, .div15, .div16 {
         background-color: rgba(0, 0, 0, 0.7);
@@ -515,14 +506,7 @@ body {
 /* Android-specific fixes */
 @supports not (-webkit-touch-callout: none) {
     @media screen and (max-width: 767px) {
-        .video-background {
-            position: fixed;
-        }
-        
-        .video-background video {
-            height: 100%;
-            width: 100%;
-        }
+        /* Mobile style adjustments */
     }
 }
 
@@ -739,15 +723,6 @@ body {
         background-color: #000;
     }
     
-    .video-background,
-    .overlay {
-        position: fixed;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-    }
-    
     .container {
         position: relative;
         z-index: 2;
@@ -758,20 +733,6 @@ body {
     position: relative; /* Ensure stacking context is preserved */
     z-index: 1;
 }
-
-/* Fix for the contrast change on scroll */
-body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    z-index: -500;
-    background-color: rgba(0, 0, 0, 0.2); /* Subtle overlay to maintain consistent contrast */
-}
-
 /* Improve scrollbar to prevent contrast issues */
 html {
     scrollbar-color: #ff3333 #000000 !important;

@@ -1,36 +1,40 @@
 # Dana Anniella - Links Page
 
-A beautiful Japanese-style links page for Dana Anniella with elegant hover effects, custom scrollbar, and a video background.
+A beautiful interactive links page for Dana Anniella with elegant hover effects, custom scrollbar, and a video background.
 
 ## Features
 
 - Responsive grid layout for links
-- Japanese-style aesthetic with cherry blossom video background
+- Dynamic video background with video.mp4
+- Background music that plays automatically
 - Custom red scrollbar
 - Elegant hover effects on all cards
 - Profile card with glowing text
 - Cross-browser and mobile compatible
-- Isolated iframe technique to prevent contrast changes when scrolling
+- Interactive card effects with ripple animations
+- Music toggle control
 
 ## Technical Details
 
 - Pure HTML, CSS and JavaScript (no frameworks)
-- Uses an iframe technique to isolate the video background for consistent contrast
+- Optimized video background implementation
 - Custom scrollbar styling
 - GPU-accelerated animations
 - Mobile-friendly design
+- Automatic audio playback with fallback for browsers that block autoplay
 
 ## Setup
 
 1. Clone this repository:
 ```
-git clone https://github.com/mrarmas02/khimsy.git
+git clone https://github.com/mrarmas02/khimsy
 ```
 
 2. Open `index.html` in your browser to view the page.
 
 3. To customize:
-   - Replace the video in the `video` folder with your own (keep the name as `background.mp4`)
+   - Replace the video in the `video` folder with your own (keep the name as `video.mp4`)
+   - Replace the audio in the `audio` folder with your own (keep the name as `audio.mp3`)
    - Edit `index.html` to update links and information
    - Modify `styles.css` to change colors and styling
 
@@ -49,4 +53,4 @@ MIT License
 
 ## Credits
 
-Created by [Daniela Armas] 
+Created by Daniela Armaș 
