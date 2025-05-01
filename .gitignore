@@ -1,0 +1,30 @@
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor folders
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+npm-debug.log*
+
+# Large binary files that might not be needed
+*.psd
+*.ai
+*.mp4.bak
+*.webm.bak
+
+# Archives
+*.zip
+*.rar
+*.7z
+biconsdana.rar
+biconsdana2.rar
+
+# Node modules (if used later)
+node_modules/ 

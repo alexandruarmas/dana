@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="color-scheme" content="dark">
+    <title>Dana Anniella - Links</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Fix contrast issues with iframe technique */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background: #000;
+        }
+        
+        #background-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            z-index: -1000;
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            min-height: auto; /* Reset height */
+            padding-top: 20px; /* Add normal padding */
+        }
+    </style>
+</head>
+<body>
+    <!-- Use iframe for background to completely isolate it from scroll events -->
+    <iframe id="background-frame" src="background.html" title="background"></iframe>
+
+    <div class="container">
+        <div class="parent">
+            <!-- Profile -->
+            <div class="div1 profile">
+                <h1>Daniela Armas</h1>
+                <p class="bio">Digital Creator | Content Creator</p>
+            </div>
+            
+            <!-- Links in new grid layout -->
+            <div class="div2 social-links">
+                <a href="https://instagram.com/dana.anniella" class="social-button instagram">
+                    <i class="fab fa-instagram"></i>
+                    <strong>Instagram</strong>
+                    <div class="link-description">Daily photos, videos, music like, products, poems etc. ❤️</div>
+                </a>
+            </div>
+            
+            <div class="div3 social-links">
+                <a href="https://instagram.com/dana.anniella.art" class="social-button instagram">
+                    <i class="fab fa-instagram"></i>
+                    <strong>Instagram Art | Transforming Views</strong>
+                    <div class="link-description">Capturing ambiance & moods I find in my life.</div>
+                    <div class="link-description">• Aesthetic - Nature - Photography - Street - Faith - My mind - My soul</div>
+                </a>
+            </div>
+            
+            <div class="div4 link-item">
+                <a href="https://tiktok.com/@dana.anniella" class="platform-button tiktok">
+                    <i class="fab fa-tiktok"></i>
+                    <strong>TikTok Personal</strong>
+                    <span class="link-description">Art - Nature</span>
+                </a>
+            </div>
+            
+            <div class="div5 link-item">
+                <a href="https://soundcloud.com/dana-anniella" class="platform-button soundcloud">
+                    <i class="fab fa-soundcloud"></i>
+                    <strong>SoundCloud</strong>
+                    <span class="link-description">Life is better with MUSIC 🎧</span>
+                </a>
+            </div>
+            
+            <div class="div6 link-item">
+                <a href="https://www.youtube.com/channel/UCSPahe-UnSQxuQPM-5rmxQA" class="platform-button youtube">
+                    <i class="fab fa-youtube"></i>
+                    <strong>YouTube Channel</strong>
+                    <span class="link-description">Watch my latest videos</span>
+                </a>
+            </div>
+            
+            <div class="div16 promo-link">
+                <a href="https://collabstr.com/dana-anniella" class="featured-item">
+                    <i class="fas fa-handshake"></i>
+                    <strong>Promote with Daniela</strong>
+                    <span class="link-description">Instagram, TikTok & UGC Influencer</span>
+                    <span class="link-description">Work with Daniela on Collabstr, the world's largest influencer marketing platform.</span>
+                </a>
+            </div>
+            
+            <div class="div15 link-item">
+                <a href="https://twitter.com/dana_anniella" class="platform-button twitter">
+                    <i class="fab fa-twitter"></i>
+                    <strong>Twitter</strong>
+                    <span class="link-description">Thoughts, updates & social media</span>
+                </a>
+            </div>
+            
+            <div class="div14 link-item">
+                <a href="https://dana-anniella.redbubble.com" class="platform-button shop">
+                    <i class="fas fa-shopping-bag"></i>
+                    <strong>My Shop</strong>
+                    <span class="link-description">Prints, stickers, apparel & more</span>
+                </a>
+            </div>
+            
+            <div class="div13 footer-link">
+                <a href="mailto:dana.anniella@contact.com">
+                    <i class="fas fa-envelope"></i>
+                    <strong>Contact Me</strong>
+                </a>
+            </div>
+            
+            <div class="div12 beacons-promo">
+                <a href="https://beacons.ai" class="beacons-button">
+                    <i class="fas fa-link"></i>
+                    <strong>Make your own page like this!</strong>
+                    <span class="link-description">Tap to have a beacons page.</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script to handle basics without modifying video appearance -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var video = document.getElementById('bgVideo');
+            var cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div12, .div13, .div14, .div15, .div16');
+            
+            // Try to play video
+            video.play().catch(function(error) {
+                console.log('Autoplay prevented:', error);
+                document.body.addEventListener('click', function() {
+                    video.play().catch(function() {});
+                }, { once: true });
+            });
+            
+            // Add click sound effect
+            function addClickSound() {
+                const clickSound = document.createElement('audio');
+                clickSound.id = 'clickSound';
+                clickSound.preload = 'auto';
+                clickSound.style.display = 'none';
+                
+                const source = document.createElement('source');
+                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
+                source.type = 'audio/mp3';
+                clickSound.appendChild(source);
+                document.body.appendChild(clickSound);
+                return clickSound;
+            }
+            
+            const clickSound = addClickSound();
+            
+            // Add card interaction
+            cards.forEach(function(card) {
+                // Add 3D tilt effect
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+                });
+                
+                // Add sound effect on click
+                card.addEventListener('click', function() {
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(function() {});
+                    
+                    // Add ripple effect
+                    let ripple = document.createElement('div');
+                    ripple.className = 'ripple';
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+        });
+    </script>
+    
+    <style>
+        /* Add ripple effect on click */
+        .ripple {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes rippleAnim {
+            to {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>
+    
