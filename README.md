@@ -1,6 +1,6 @@
-# Dana Anniella - Links Page
+# Daniela Armaș - Links Page
 
-A beautiful interactive links page for Dana Anniella with elegant hover effects, custom scrollbar, and a video background.
+A beautiful interactive links page for Daniela Armaș with elegant hover effects, custom scrollbar, and a video background.
 
 ## Features
 
@@ -33,7 +33,7 @@ A beautiful interactive links page for Dana Anniella with elegant hover effects,
 
 1. Clone this repository:
 ```
-git clone https://github.com/mrarmas02/khimsy
+git clone https://github.com/mrarmas02/khimsy.git
 ```
 
 2. Open `index.html` in your browser to view the page.

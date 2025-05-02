@@ -49,10 +49,13 @@ body {
 
 .parent {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr repeat(7, 1fr);
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(12, 1fr);
     gap: 10px;
-    min-height: 100%; /* Reset height to normal */
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0 auto;
 }
     
 .div1 {
@@ -189,77 +192,64 @@ body {
 }
 
 /* Grid Positioning */
-.div2 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-row-start: 5;
-    animation-delay: 0.1s;
-}
-
 .div3 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-column-start: 3;
-    grid-row-start: 5;
-    animation-delay: 0.2s;
+    grid-column-start: 1;
+    grid-row-start: 3;
 }
 
 .div4 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-row-start: 7;
-    animation-delay: 0.3s;
+    grid-column-start: 1;
+    grid-row-start: 4;
 }
 
 .div5 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-column-start: 3;
-    grid-row-start: 7;
-    animation-delay: 0.4s;
+    grid-column-start: 1;
+    grid-row-start: 5;
 }
 
 .div6 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
+    grid-column-start: 1;
+    grid-row-start: 6;
+}
+
+.div7 {
+    grid-column-start: 1;
+    grid-row-start: 7;
+}
+
+.div8 {
+    grid-column-start: 1;
+    grid-row-start: 8;
+}
+
+.div9 {
+    grid-column-start: 1;
     grid-row-start: 9;
-    animation-delay: 0.5s;
+}
+
+.div10 {
+    grid-column-start: 1;
+    grid-row-start: 10;
+}
+
+.div11 {
+    grid-column-start: 1;
+    grid-row-start: 11;
 }
 
 .div12 {
-    grid-row: span 2 / span 2;
-    grid-column-start: 4;
-    grid-row-start: 11;
-    animation-delay: 1s;
+    grid-column-start: 1;
+    grid-row-start: 12;
 }
 
 .div13 {
     grid-row: span 2 / span 2;
-    grid-column-start: 3;
-    grid-row-start: 11;
-    animation-delay: 0.9s;
+    grid-column-start: 1;
+    grid-row-start: 1;
 }
 
 .div14 {
-    grid-row: span 2 / span 2;
-    grid-column-start: 2;
-    grid-row-start: 11;
-    animation-delay: 0.8s;
-}
-
-.div15 {
-    grid-row: span 2 / span 2;
-    grid-column-start: 1;
-    grid-row-start: 11;
-    animation-delay: 0.7s;
-}
-
-.div16 {
-    grid-column: span 2 / span 2;
-    grid-row: span 2 / span 2;
-    grid-column-start: 3;
-    grid-row-start: 9;
-    animation-delay: 0.6s;
+    grid-row-start: 13;
 }
 
 .profile-image {
@@ -548,25 +538,31 @@ body {
     .parent {
         display: flex;
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
         width: 100%;
+        padding: 0;
+        margin: 0;
     }
     
     .div1, .div2, .div3, .div4, .div5, .div6, 
-    .div12, .div13, .div14, .div15, .div16 {
+    .div12, .div13, .div14, .div15, .div16, .div7, .div8, .div9, .div10, .div11 {
         width: 100% !important;
-        margin: 0 auto;
-        min-height: 150px;
+        margin: 5px 0;
+        min-height: 130px;
+        box-sizing: border-box;
     }
     
     .social-button, .platform-button, .featured-item, .footer-link a, .beacons-button {
         padding: 15px 8px;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
     }
     
     .link-description {
         font-size: 13px;
-        max-width: 90%;
-        margin: 0 auto;
+        max-width: 100%;
+        margin: 5px auto;
     }
     
     body {
@@ -782,20 +778,19 @@ html {
     @media only screen and (max-width: 768px) {
         .parent {
             gap: 8px; /* Reduce the gap */
-            max-width: 85%; /* Make container slightly smaller */
-            margin: 0 auto; /* Center the grid */
+            max-width: 100%; /* Make container full width */
+            margin: 0; /* Remove margin */
+            width: 100%;
+            padding: 0 8px;
         }
         
         .div1, .div2, .div3, .div4, .div5, .div6, 
         .div12, .div13, .div14, .div15, .div16 {
-            /* Using transform for visual scaling */
-            transform: scale(0.75); 
-            transform-origin: center center;
-            /* Create space for the scaled down elements */
-            margin: 10px auto;
-            
-            /* Ensure proper spacing between elements */
-            min-height: 112px; /* 150px * 0.75 */
+            /* Remove transform scaling that creates gaps */
+            transform: none;
+            margin: 5px 0;
+            width: 100%;
+            min-height: 130px; /* Consistent height */
         }
         
         /* Smaller elements for iOS */
@@ -809,18 +804,23 @@ html {
         }
         
         .link-description {
-            font-size: 10px;
-            max-width: 95%;
+            font-size: 12px;
+            max-width: 100%;
         }
         
         .social-button, .platform-button, .featured-item, .footer-link a, .beacons-button {
             padding: 12px 5px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
         }
         
         /* Adjust container for iOS */
         .container {
-            max-width: 90%;
+            max-width: 100%;
             padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
     }
     
@@ -831,13 +831,15 @@ html {
            only screen and (width: 430px) {
         .parent {
             gap: 10px;
-            max-width: 88%;
+            max-width: 100%;
+            padding: 0 10px;
         }
         
         .div1, .div2, .div3, .div4, .div5, .div6, 
         .div12, .div13, .div14, .div15, .div16 {
-            transform: scale(0.75);
-            margin: 5px auto;
+            transform: none;
+            margin: 5px 0;
+            width: 100%;
         }
     }
 }
