@@ -6,32 +6,22 @@
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
-html {
-    scrollbar-width: thin;
-    scrollbar-color: #ff3333 #000000;
+html, body {
+    margin: 0;
+    padding: 0;
     height: 100%;
     width: 100%;
     overflow-x: hidden;
-    overflow-y: scroll;
-    margin: 0;
-    padding: 0;
-    background-color: transparent;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
 }
 
 body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
     color: #333;
     line-height: 1.6;
-    background-color: #000; /* Fallback color */
-    min-height: 100%;
-    width: 100%;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 50px; /* Add padding at the bottom for scrolling */
-    overflow: hidden; /* Hide body scrollbar */
+    background-color: #000;
+    padding-bottom: 50px;
 }
 
 /* Video background styles */
@@ -49,12 +39,12 @@ body {
 }
 
 .container {
-    max-width: 768px;
-    margin: 0 auto;
-    padding: 20px;
     position: relative;
-    z-index: 1;
-    background: transparent;
+    z-index: 2;
+    overflow: visible;
+    padding: 15px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .parent {
@@ -553,40 +543,77 @@ body {
     }
 }
 
-/* Small mobile screens */
+/* Mobile responsive design improvements */
 @media only screen and (max-width: 480px) {
     .parent {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
     }
     
     .div1, .div2, .div3, .div4, .div5, .div6, 
     .div12, .div13, .div14, .div15, .div16 {
-        grid-column: 1;
-        grid-row: auto;
-    }
-    
-    .link-description {
-        font-size: 14px;
+        width: 100% !important;
+        margin: 0 auto;
+        min-height: 150px;
     }
     
     .social-button, .platform-button, .featured-item, .footer-link a, .beacons-button {
-        padding: 20px 10px;
-    }
-
-    /* Adjust icon sizes for small screens */
-    .social-button i, .platform-button i {
-        font-size: 36px;
-        margin-bottom: 10px;
+        padding: 15px 8px;
     }
     
-    .social-button strong, .platform-button strong {
-        font-size: 16px;
+    .link-description {
+        font-size: 13px;
+        max-width: 90%;
+        margin: 0 auto;
+    }
+    
+    body {
+        padding-bottom: 70px;
+    }
+}
+
+/* Landscape mode fixes */
+@media only screen and (max-width: 896px) and (orientation: landscape) {
+    .container {
+        height: auto;
+        overflow: visible;
+    }
+    
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        height: auto;
+    }
+    
+    .div1 {
+        grid-column: 1 / span 2;
+        grid-row: 1;
+        height: auto;
+        min-height: 120px;
+        padding: 10px;
+    }
+    
+    .div2, .div3, .div4, .div5, .div6, 
+    .div12, .div13, .div14, .div15, .div16 {
+        min-height: 100px;
+        height: auto;
+    }
+    
+    .social-button i, .platform-button i {
+        font-size: 30px;
         margin-bottom: 5px;
     }
     
-    .featured-item i, .footer-link a i {
-        font-size: 32px;
-        margin-bottom: 8px;
+    .social-button strong, .platform-button strong {
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
+    
+    .link-description {
+        font-size: 11px;
     }
 }
 
@@ -747,5 +774,71 @@ html {
     background: #ff3333 !important;
     border: 1px solid #ff6666 !important;
     box-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+/* Specific iOS adjustment to make grid items 25% smaller */
+@supports (-webkit-touch-callout: none) {
+    /* General iOS adjustment */
+    @media only screen and (max-width: 768px) {
+        .parent {
+            gap: 8px; /* Reduce the gap */
+            max-width: 85%; /* Make container slightly smaller */
+            margin: 0 auto; /* Center the grid */
+        }
+        
+        .div1, .div2, .div3, .div4, .div5, .div6, 
+        .div12, .div13, .div14, .div15, .div16 {
+            /* Using transform for visual scaling */
+            transform: scale(0.75); 
+            transform-origin: center center;
+            /* Create space for the scaled down elements */
+            margin: 10px auto;
+            
+            /* Ensure proper spacing between elements */
+            min-height: 112px; /* 150px * 0.75 */
+        }
+        
+        /* Smaller elements for iOS */
+        .social-button i, .platform-button i {
+            font-size: 30px;
+        }
+        
+        .social-button strong, .platform-button strong {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .link-description {
+            font-size: 10px;
+            max-width: 95%;
+        }
+        
+        .social-button, .platform-button, .featured-item, .footer-link a, .beacons-button {
+            padding: 12px 5px;
+        }
+        
+        /* Adjust container for iOS */
+        .container {
+            max-width: 90%;
+            padding: 10px;
+        }
+    }
+    
+    /* Specific iPhone 12 Pro Max (and similar models with width ~428px) */
+    @media only screen and (device-width: 428px) and (device-height: 926px), 
+           only screen and (width: 428px) and (height: 926px),
+           only screen and (width: 428px),
+           only screen and (width: 430px) {
+        .parent {
+            gap: 10px;
+            max-width: 88%;
+        }
+        
+        .div1, .div2, .div3, .div4, .div5, .div6, 
+        .div12, .div13, .div14, .div15, .div16 {
+            transform: scale(0.75);
+            margin: 5px auto;
+        }
+    }
 }
         
