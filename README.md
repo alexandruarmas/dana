@@ -1,83 +1,90 @@
-# Daniela Armaș - Links Page
+# Daniela Armaș - Personal Links Page
 
-A beautiful interactive links page for Daniela Armaș with elegant hover effects, custom scrollbar, and a video background.
+## Overview
+Daniela Armaș is a modern, interactive personal portfolio website with a responsive grid layout, immersive visual effects, and seamless navigation. The website features a video background with fallback options, custom cursor effects on desktop, and optimized touch interactions for mobile users.
 
 ## Features
 
-- Responsive grid layout for links
-- Customizable video background with multiple options:
-  - MOBILE-Celestial-Cat.mp4
-  - MOBILE-Night-Japanese-Village.mp4
-  - Other videos in the video directory
-- Background music that plays automatically
-- Custom red scrollbar
-- Elegant hover effects on all cards
-- Profile card with glowing text
-- Cross-browser and mobile compatible
-- Interactive card effects with ripple animations
-- Music toggle control
-- Optimized for iOS and Android devices
-- Fixed zoom issues for better mobile experience
+### Visual Design
+- **Video Background**: Immersive video background with automatic fallback to gradient if video fails to load
+- **Responsive Grid Layout**: Clean, card-based interface that adapts to all screen sizes
+- **Custom Cursor**: Enhanced desktop experience with an interactive custom cursor
+- **3D Card Tilt Effect**: Dynamic tilt animations when hovering over grid items
+- **Parallax Scrolling**: Subtle depth effects when scrolling through content
+- **Animated Page Transitions**: Smooth transitions when navigating between pages
 
-## Technical Details
+### Interactive Elements
+- **Social Media Integration**: Direct links to Instagram, Instagram Art, and other social platforms
+- **Haptic Feedback**: Vibration feedback for interactive elements on supported mobile devices
+- **Touch Optimizations**: Special animations and interactions for touch-enabled devices
 
-- Pure HTML, CSS and JavaScript (no frameworks)
-- Optimized video background implementation
-- Custom scrollbar styling
-- GPU-accelerated animations
-- Mobile-friendly design
-- Zoom prevention for consistent display
-- Automatic audio playback with fallback for browsers that block autoplay
+### Technical Features
+- **Fully Responsive**: Optimized for all devices from mobile phones to large desktop displays
+- **Performance Optimized**: Lightweight animations that don't compromise performance
+- **Fallback Systems**: Graceful degradation when features aren't supported
+- **Mobile-First Design**: Carefully crafted to work well on smaller screens first
 
-## Setup
+## Getting Started
 
-1. Clone this repository:
+### Prerequisites
+- Any modern web browser (Chrome, Firefox, Safari, Edge recommended)
+- For development: Basic knowledge of HTML, CSS, and JavaScript
+
+### Installation
+1. Clone the repository:
 ```
-git clone https://github.com/mrarmas02/khimsy.git
+git clone https://github.com/yourusername/biconsdana.git
 ```
+2. Open `index.html` in your browser to view the website locally.
 
-2. Open `index.html` in your browser to view the page.
+### Customization
+- **Background Video**: Replace the video files in the `/video` directory
+- **Profile Information**: Update personal details in the appropriate sections of `index.html`
+- **Color Scheme**: Modify the CSS variables in the `styles.css` file
+- **Social Links**: Update the href attributes in the grid items to point to your social media accounts
 
-3. To customize:
-   - Replace or use existing videos in the `video` folder (update the source in index.html)
-   - Replace the audio in the `audio` folder with your own (keep the name as `audio.mp3`)
-   - Edit `index.html` to update links and information
-   - Modify `styles.css` to change colors and styling
-
-## Video Background Options
-
-The page supports different video backgrounds. To change the background, edit the video source in `index.html`:
-
-```html
-<source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
+## File Structure
 ```
-
-Available videos:
-- MOBILE-Celestial-Cat.mp4 (current)
-- MOBILE-Night-Japanese-Village.mp4
-- video.mp4 (original)
+biconsdana/
+├── index.html               # Main HTML structure
+├── styles.css               # CSS styling
+├── images/                  # Image assets
+├── video/                   # Video backgrounds
+│   ├── frame.mp4            # Main background video
+│   ├── MOBILE-Celestial-Cat.mp4    # Mobile-optimized video
+└── README.md                # Project documentation
+```
 
 ## Browser Compatibility
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- iOS Safari
+- Android Chrome
 
-Tested and working on:
-- Chrome
-- Firefox
-- Safari
-- Edge
-- Mobile browsers (iOS and Android)
+## Design Philosophy
+Daniela Armaș follows modern design principles with inspiration from Apple's Human Interface Guidelines, particularly focusing on:
 
-## Recent Updates
+- **Clarity**: Clean layouts and intuitive navigation
+- **Depth**: Visual hierarchy using 3D effects and parallax scrolling
+- **Deference**: Content is the focus, with UI elements supporting rather than distracting
 
-- Fixed zoom issues on mobile devices
-- Added support for multiple video backgrounds
-- Optimized CSS for better performance
-- Improved iOS compatibility
-- Reduced video background size to 85% for better aesthetics
+## Performance Considerations
+The website uses several performance optimization techniques:
+- Lazy loading of non-critical resources
+- Simplified animations for mobile devices
+- Reduced motion options for accessibility
+- Video resolution optimization for different devices
+
+## Contributing
+Contributions, issues, and feature requests are welcome. Feel free to check the issues page if you want to contribute.
 
 ## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-MIT License
-
-## Credits
-
-Created by Daniela Armaș and Alexandru Armaș 
+## Acknowledgments
+- Inspired by modern design trends and interactive websites
+- Video backgrounds from various royalty-free sources
+- Special thanks to Alexandru Armaș for design contributions
+- Font icons from FontAwesome 
