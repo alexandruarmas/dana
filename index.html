@@ -1660,6 +1660,47 @@
                 transform: none !important; /* Simplified transform */
                 object-fit: cover !important;
                 transform-style: flat !important; /* Reduce GPU memory usage */
+                opacity: 0.85 !important; /* Make video slightly transparent on mobile */
+            }
+            
+            /* Fix for mobile - add cosmic cat color overlay */
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: linear-gradient(45deg, rgba(0,0,60,0.7) 0%, rgba(128,0,128,0.6) 50%, rgba(255,0,150,0.5) 100%);
+                z-index: 0;
+                pointer-events: none;
+            }
+            
+            /* Force color consistency on mobile devices */
+            .div13.profile h1 {
+                background: linear-gradient(120deg, #ffffff 0%, #76c6ff 25%, #ffffff 35%, #5dacee 65%, #ffffff 75%, #76c6ff 100%) !important;
+                -webkit-background-clip: text !important;
+                background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+                text-shadow: 0 0 15px rgba(93, 172, 238, 0.8), 0 0 25px rgba(93, 172, 238, 0.6) !important;
+            }
+            
+            .div13.profile .bio {
+                background: linear-gradient(120deg, #ffd700 0%, #ffcc33 25%, #ffeeaa 50%, #ffcc33 75%, #ffd700 100%) !important;
+                -webkit-background-clip: text !important;
+                background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+            }
+            
+            /* Make video more visible on iOS */
+            @media only screen and (max-width: 767px) {
+                .video-background video {
+                    opacity: 0.7 !important;
+                }
+                
+                body::before {
+                    background: linear-gradient(45deg, rgba(0,0,60,0.6) 0%, rgba(128,0,128,0.5) 50%, rgba(255,0,150,0.4) 100%);
+                }
             }
         }
     </style>
@@ -1977,6 +2018,48 @@
 
     // Check video health every minute
     setInterval(checkVideoHealth, 60000);
+
+    // After unlock, force video play
+    try {
+        video.load();
+        video.play().catch(e => {
+            console.warn("Initial play failed:", e);
+            // Try one more time
+            setTimeout(() => video.play(), 500);
+        });
+    } catch (e) {
+        console.error("Video playback error:", e);
+    }
+
+    // Add mobile cosmic theme appearance if video fails
+    const applyCosmicCatFallback = () => {
+        // Check if we're on iOS or if video has failed
+        if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (video && video.paused)) {
+            console.log("Applying cosmic cat theme fallback for mobile");
+            
+            // Add cosmic cat overlay
+            const overlay = document.createElement('div');
+            overlay.style.position = 'fixed';
+            overlay.style.top = '0';
+            overlay.style.left = '0';
+            overlay.style.width = '100vw';
+            overlay.style.height = '100vh';
+            overlay.style.zIndex = '0';
+            overlay.style.pointerEvents = 'none';
+            overlay.style.background = 'linear-gradient(45deg, rgba(0,0,60,0.7) 0%, rgba(128,0,128,0.6) 50%, rgba(255,0,150,0.5) 100%)';
+            
+            // Add it to the body
+            document.body.appendChild(overlay);
+            
+            // Make video partially visible if it exists
+            if(video) {
+                video.style.opacity = '0.7';
+            }
+        }
+    };
+
+    // Check if video playback fails and apply fallback
+    setTimeout(applyCosmicCatFallback, 2000);
 </script>
 </html>
     
