@@ -277,7 +277,10 @@
         /* Hover effect for cards */
         .div2:hover, .div3:hover, .div4:hover, .div5:hover, .div6:hover, 
         .div12:hover, .div13:hover, .div14:hover, .div15:hover, .div16:hover, 
-        .div7:hover, .div8:hover, .div9:hover, .div10:hover, .div11:hover {
+        .div7:hover, .div8:hover, .div9:hover, .div10:hover, .div11:hover,
+        .div2.touch-hover, .div3.touch-hover, .div4.touch-hover, .div5.touch-hover, .div6.touch-hover, 
+        .div12.touch-hover, .div13.touch-hover, .div14.touch-hover, .div15.touch-hover, .div16.touch-hover, 
+        .div7.touch-hover, .div8.touch-hover, .div9.touch-hover, .div10.touch-hover, .div11.touch-hover {
             transform: translateY(-5px) scale(1.03);
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             cursor: pointer;
@@ -288,7 +291,10 @@
         /* Enhanced glow effect on hover */
         .div2:hover::after, .div3:hover::after, .div4:hover::after, .div5:hover::after, .div6:hover::after,
         .div12:hover::after, .div13:hover::after, .div14:hover::after, .div15:hover::after, .div16:hover::after,
-        .div7:hover::after, .div8:hover::after, .div9:hover::after, .div10:hover::after, .div11:hover::after {
+        .div7:hover::after, .div8:hover::after, .div9:hover::after, .div10:hover::after, .div11:hover::after,
+        .div2.touch-hover::after, .div3.touch-hover::after, .div4.touch-hover::after, .div5.touch-hover::after, .div6.touch-hover::after,
+        .div12.touch-hover::after, .div13.touch-hover::after, .div14.touch-hover::after, .div15.touch-hover::after, .div16.touch-hover::after,
+        .div7.touch-hover::after, .div8.touch-hover::after, .div9.touch-hover::after, .div10.touch-hover::after, .div11.touch-hover::after {
             content: '';
             position: absolute;
             top: 0;
@@ -372,9 +378,33 @@
             border-radius: 20px;
             padding: 40px 15px;
             transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .instagram:hover {
+        /* New Instagram Art gradient with completely different colors */
+        .instagram-art {
+            background: linear-gradient(315deg, #8a2be2 0%, #9932cc 25%, #00ced1 50%, #20b2aa 75%, #32cd32 100%);
+            background-size: 200% 200%;
+            border-radius: 20px;
+            padding: 40px 15px;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .instagram-art:hover, .instagram-art.touch-hover {
+            animation: artGradientShift 4s ease-in-out infinite alternate;
+            background-size: 150% 150%;
+        }
+
+        /* Separate animation for Instagram Art */
+        @keyframes artGradientShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .instagram:hover, .instagram.touch-hover {
             animation: gradientShift 3s ease infinite;
             background-size: 150% 150%;
         }
@@ -412,7 +442,7 @@
             transition: all 0.5s ease;
         }
 
-        .tiktok:hover {
+        .tiktok:hover, .tiktok.touch-hover {
             animation: gradientShift 3s ease infinite;
         }
 
@@ -422,18 +452,58 @@
             transition: all 0.5s ease;
         }
 
-        .youtube:hover {
+        .youtube:hover, .youtube.touch-hover {
             animation: gradientShift 3s ease infinite;
         }
 
+        /* Enhanced SoundCloud with audio wave effect */
         .soundcloud {
-            background: linear-gradient(to right, #ff7700, #ff3300);
-            background-size: 200% 100%;
+            background: linear-gradient(180deg, #ff7700 0%, #ff3300 100%);
+            position: relative;
+            overflow: hidden;
             transition: all 0.5s ease;
         }
 
-        .soundcloud:hover {
-            animation: gradientShift 3s ease infinite;
+        .soundcloud::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .soundcloud:hover::before, .soundcloud.touch-hover::before {
+            opacity: 1;
+            animation: soundWave 2s ease-in-out infinite;
+        }
+
+        .soundcloud::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 10%, rgba(255,255,255,0.2) 30%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.2) 70%, rgba(255,255,255,0.1) 90%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .soundcloud:hover::after, .soundcloud.touch-hover::after {
+            opacity: 1;
+            animation: soundWave 1.5s ease-in-out infinite reverse;
+        }
+
+        @keyframes soundWave {
+            0% { transform: translateX(-100%) scaleY(0.5); }
+            50% { transform: translateX(0%) scaleY(1); }
+            100% { transform: translateX(100%) scaleY(0.5); }
         }
 
         .twitter {
@@ -442,7 +512,7 @@
             transition: all 0.5s ease;
         }
 
-        .twitter:hover {
+        .twitter:hover, .twitter.touch-hover {
             animation: gradientShift 3s ease infinite;
         }
 
@@ -452,26 +522,123 @@
             transition: all 0.5s ease;
         }
 
-        .shop:hover {
+        .shop:hover, .shop.touch-hover {
             animation: gradientShift 3s ease infinite;
         }
 
         /* Featured content and other button styles */
         .featured-item {
             background: linear-gradient(45deg, #8a3ab9, #bc2a8d, #e95950, #fccc63);
+            background-size: 200% 200%;
             color: white;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .featured-item:hover, .featured-item.touch-hover {
+            animation: gradientShift 3s ease infinite;
+            background-size: 150% 150%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        /* Professional border glow effect */
+        .featured-item::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #8a3ab9, #bc2a8d, #e95950, #fccc63);
+            background-size: 400% 400%;
+            z-index: -1;
+            border-radius: 22px; /* 20px + 2px for border */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .featured-item:hover::before, .featured-item.touch-hover::before {
+            opacity: 1;
+            animation: borderGlow 3s ease infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        /* Professional highlight effect */
+        .featured-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent 0%, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.1) 40%, 
+                rgba(255, 255, 255, 0.2) 50%, 
+                rgba(255, 255, 255, 0.1) 60%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .featured-item:hover::after, .featured-item.touch-hover::after {
+            opacity: 1;
+            animation: shine 1.5s ease-in-out infinite;
+        }
+
+        @keyframes shine {
+            to {
+                left: 100%;
+            }
         }
 
         .featured-item i {
             font-size: 42px;
             margin-bottom: 15px;
             color: white;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .featured-item:hover i, .featured-item.touch-hover i {
+            transform: scale(1.2);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.5);
+            animation: iconPulse 2s infinite alternate;
+        }
+
+        @keyframes iconPulse {
+            0% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                transform: scale(1.3);
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.8), 0 0 70px rgba(255, 255, 255, 0.6);
+            }
         }
 
         .featured-item strong {
             font-size: 18px;
             margin-bottom: 8px;
             color: white;
+            position: relative;
+            z-index: 2;
         }
 
         /* Footer link styles - adjusted to match other grid items */
@@ -524,10 +691,11 @@
             transform: scale(1.05);
         }
         
-        /* Alexandru Armas section - with same effects as Create Your Own Page */
+        /* Alexandru Armas section - with developer theme effect */
         .alex-section {
-            background: linear-gradient(135deg, #0066ff, #00ccff, #0099ff);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, #4facfe, #00f2fe, #32ccbc, #38ef7d);
+            background-size: 300% 300%;
+            animation: developerGradient 10s ease infinite;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
@@ -541,36 +709,77 @@
             text-decoration: none;
             overflow: hidden;
             position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .alex-section:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5); /* blue-violet shadow */
-            background-position: 100% 100%;
-            animation: gradientShift 3s ease infinite;
+        @keyframes developerGradient {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
         }
-        
-        .alex-section:hover::after {
-            content: '';
+
+        .alex-section::before {
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
-            animation: glowPulse 1.5s infinite alternate;
-            z-index: -1;
-            pointer-events: none;
+            left: -50%;
+            top: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
-        
-        .alex-section:hover strong {
+
+        .alex-section::after {
+            content: "";
+            position: absolute;
+            left: -50%;
+            top: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.1),
+                rgba(255, 255, 255, 0.1) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .alex-section:hover::before, .alex-section.touch-hover::before {
+            opacity: 1;
+            animation: codeLines 15s linear infinite;
+        }
+
+        .alex-section:hover::after, .alex-section.touch-hover::after {
+            opacity: 1;
+            animation: codeLines 15s linear infinite reverse;
+        }
+
+        @keyframes codeLines {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .alex-section:hover, .alex-section.touch-hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5);
+        }
+
+        .alex-section:hover strong, .alex-section.touch-hover strong {
             transform: scale(1.05);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-        
+
         .alex-section i {
             font-size: 28px;
             color: white;
@@ -613,7 +822,9 @@
 
         /* Contact Me button - make it fully fill the grid cell */
         .contact-me {
-            background: linear-gradient(to bottom, #555555, #333333);
+            background: linear-gradient(45deg, #9d50bb, #6e48aa, #4776e6, #8e54e9);
+            background-size: 300% 300%;
+            animation: sparkleGradient 8s ease infinite;
             color: white;
             height: 100%;
             min-height: 120px;
@@ -632,56 +843,74 @@
             overflow: hidden; /* Ensure content doesn't overflow */
         }
 
-        .contact-me:hover {
+        .contact-me::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 60%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .contact-me:hover::before, .contact-me.touch-hover::before {
+            opacity: 1;
+            animation: contactPulse 2s infinite linear;
+        }
+
+        @keyframes contactPulse {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        @keyframes sparkleGradient {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .contact-me:hover, .contact-me.touch-hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
-        .contact-me i {
-            font-size: 32px;
-            margin-bottom: 8px;
-            color: white;
-            padding-top: 8px; /* Reduced padding to prevent overflow */
-        }
-
-        .contact-me strong {
-            font-size: 22px;
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Fix the div8 container to ensure proper height and containment */
-        .div8 {
-            min-height: 120px;
-            height: 120px;
-            margin: 3px;
-            overflow: hidden; /* Keep content inside the container */
-        }
-        
-        /* Special reduced bounce just for Contact Me icon */
+        /* Reduce the Contact Me icon bounce animation */
         @keyframes contactIconBounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-2px); } /* Further reduced to -2px */
         }
-        
+
         /* Override the default icon bounce for the Contact Me button */
-        .div8:hover .contact-me i {
-            animation: contactIconBounce 0.8s ease infinite !important;
+        .div8:hover .contact-me i, .div8.touch-hover .contact-me i {
+            animation: contactIconBounce 0.6s ease infinite !important;
             transform-origin: center;
+            animation-direction: alternate;
         }
 
-        /* Beacons button */
-        .beacons-button {
-            background: linear-gradient(45deg, #9146FF, #7c3aed);
+        /* Constrain the Contact Me icon within its container */
+        .contact-me i {
+            font-size: 26px; /* Further reduced size */
+            margin-bottom: 5px; /* Further reduced margin */
             color: white;
-            border-radius: 12px;
-            font-size: 16px;
+            padding-top: 4px; /* Further reduced padding */
+            position: relative;
+            z-index: 1;
+            transform: translateZ(0); /* Hardware acceleration */
+            will-change: transform;
+            overflow: visible;
         }
 
-        /* Create your own page - ENHANCED WITH GRADIENT ANIMATIONS */
+        /* Create your own page - ENHANCED WITH CREATIVE GRADIENT ANIMATIONS */
         .create-page-button {
-            background: linear-gradient(135deg, #1a1a2e, #3a0ca3, #7209b7);
-            background-size: 200% 200%;
+            background: linear-gradient(135deg, #00c6ff, #0072ff, #7a36b1, #ff3377);
+            background-size: 300% 300%;
+            animation: creativeBg 15s ease infinite alternate;
             color: white;
             border-radius: 20px;
             display: flex;
@@ -700,38 +929,52 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
         }
         
-        .create-page-button:hover {
-            transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5); /* deep violet shadow */
-            background-position: 100% 100%;
-            animation: gradientShift 3s ease infinite;
+        @keyframes creativeBg {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
         }
-        
-        .create-page-button:hover::after {
+
+        .create-page-button::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 20px;
-            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
-            animation: glowPulse 1.5s infinite alternate;
-            z-index: -1;
-            pointer-events: none;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 25%),
+                        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
-        
-        .create-page-button:hover strong {
+
+        .create-page-button:hover::before, .create-page-button.touch-hover::before {
+            opacity: 1;
+            animation: creativeDots 5s infinite ease-in-out;
+        }
+
+        @keyframes creativeDots {
+            0% { transform: translateX(-10%) translateY(-10%) scale(0.9); }
+            25% { transform: translateX(5%) translateY(5%) scale(1.1); }
+            50% { transform: translateX(10%) translateY(-5%) scale(1); }
+            75% { transform: translateX(-5%) translateY(10%) scale(1.1); }
+            100% { transform: translateX(-10%) translateY(-10%) scale(0.9); }
+        }
+
+        .create-page-button:hover, .create-page-button.touch-hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5);
+        }
+
+        .create-page-button:hover strong, .create-page-button.touch-hover strong {
             transform: scale(1.05);
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-        
+
         .create-page-button i {
             font-size: 0; /* Hide the icon */
             display: none;
         }
-        
+
         .create-page-button strong {
             font-size: 24px;
             margin: 0 0 5px;
@@ -742,7 +985,10 @@
             width: 100%;
             letter-spacing: 0.5px;
             line-height: 1.2;
+            position: relative;
+            z-index: 1;
         }
+        
         
         .create-page-button .link-description {
             font-size: 15px;
@@ -1091,6 +1337,299 @@
             scrollbar-color: rgba(120,120,128,0.3) transparent !important;
             scrollbar-width: thin;
         }
+
+        /* Fix the div8 container to ensure proper height and containment */
+        .div8 {
+            min-height: 120px;
+            height: 120px;
+            margin: 3px;
+            overflow: hidden; /* Keep content inside the container */
+        }
+
+        /* Special reduced bounce just for Contact Me icon */
+        @keyframes contactIconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); } /* Reduced from -5px to -3px */
+        }
+
+        /* Override the default icon bounce for the Contact Me button */
+        .div8:hover .contact-me i, .div8.touch-hover .contact-me i {
+            animation: contactIconBounce 0.8s ease infinite !important;
+            transform-origin: center;
+            animation-direction: alternate;
+        }
+
+        /* Beacons button */
+        .beacons-button {
+            background: linear-gradient(45deg, #9146FF, #7c3aed);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        /* Add camera shutter effect for Instagram */
+        .instagram::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 55%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            transform: translateX(-100%);
+            pointer-events: none;
+        }
+
+        .instagram:hover::before, .instagram.touch-hover::before {
+            opacity: 1;
+            animation: instagramShutter 2s infinite ease-out;
+        }
+
+        @keyframes instagramShutter {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Instagram Art gradient - add digital paint effect */
+        /* Add digital paint strokes effect for Instagram Art */
+        .instagram-art::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%),
+                linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%),
+                linear-gradient(225deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%),
+                linear-gradient(315deg, transparent 40%, rgba(255,255,255,0.2) 45%, transparent 50%);
+            background-size: 200px 200px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .instagram-art:hover::before, .instagram-art.touch-hover::before {
+            opacity: 1;
+            animation: paintStrokes 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes paintStrokes {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        .instagram-art::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .instagram-art:hover::after, .instagram-art.touch-hover::after {
+            opacity: 1;
+        }
+
+        /* Featured content styles - unique promotional spotlight effect */
+        .featured-item {
+            background: linear-gradient(45deg, #8a3ab9, #bc2a8d, #e95950, #fccc63);
+            background-size: 200% 200%;
+            color: white;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .featured-item:hover, .featured-item.touch-hover {
+            animation: gradientShift 3s ease infinite;
+            background-size: 150% 150%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        /* Promotional spotlights effect */
+        .featured-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 20%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 20%),
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 20%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 20%),
+                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .featured-item:hover::before, .featured-item.touch-hover::before {
+            opacity: 1;
+            animation: spotlights 4s infinite alternate-reverse;
+        }
+
+        @keyframes spotlights {
+            0% {
+                background-position: 0% 0%, 100% 0%, 0% 100%, 100% 100%, 50% 50%;
+            }
+            100% {
+                background-position: 20% 20%, 80% 20%, 20% 80%, 80% 80%, 50% 50%;
+            }
+        }
+
+        /* Network connection lines effect */
+        .featured-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.6) 50%, transparent 52%),
+                linear-gradient(135deg, transparent 48%, rgba(255,255,255,0.6) 50%, transparent 52%);
+            background-size: 50px 50px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .featured-item:hover::after, .featured-item.touch-hover::after {
+            opacity: 0.2;
+            animation: networkExpand 8s infinite linear;
+        }
+
+        @keyframes networkExpand {
+            0% {
+                transform: rotate(0) scale(0.8);
+            }
+            100% {
+                transform: rotate(360deg) scale(1.2);
+            }
+        }
+
+        /* Unique icon animation for featured-item */
+        .featured-item i {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: white;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .featured-item:hover i, .featured-item.touch-hover i {
+            transform: scale(1.2);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.5);
+            animation: iconPulse 2s infinite alternate;
+        }
+
+        @keyframes iconPulse {
+            0% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                transform: scale(1.3);
+                text-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.8), 0 0 70px rgba(255, 255, 255, 0.6);
+            }
+        }
+        
+        .featured-item strong {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Audio button styles */
+        .audio-control-container {
+            background-color: rgba(0,0,0,0.2); /* Very transparent background */
+            padding: 8px;
+            border-radius: 50%; /* Make it circular */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            width: 50px; /* Fixed width for circular button */
+            height: 50px; /* Fixed height for circular button */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-control-container:hover, .audio-control-container.touch-hover {
+            background-color: rgba(0,0,0,0.4);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        .audio-button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            touch-action: manipulation;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-button i {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        .audio-button:hover i, .audio-button.touch-hover i {
+            transform: scale(1.2);
+        }
+        
+        /* Pulse animation for audio icon when playing */
+        @keyframes audioIconPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .audio-icon-playing {
+            animation: audioIconPulse 2s infinite ease-in-out;
+            color: #1DB954; /* Spotify green color for playing state */
+        }
+        
+        /* Center the audio controls at the bottom */
+        .footer-audio-controls {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px auto;
+            padding: 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -1106,17 +1645,10 @@
     <div class="overlay"></div>
     
     <!-- Background audio -->
-    <audio id="bgAudio" autoplay loop>
+    <audio id="bgAudio" autoplay playsinline webkit-playsinline>
         <source src="audio/audio.mp3" type="audio/mpeg">
     </audio>
     
-    <!-- Audio controls -->
-    <div style="position: fixed; bottom: 10px; right: 10px; z-index: 100; background-color: rgba(0,0,0,0.5); padding: 5px; border-radius: 5px;">
-        <button id="audioToggle" style="background: none; border: none; color: white; cursor: pointer;">
-            <i class="fas fa-volume-mute"></i> Music
-        </button>
-    </div>
-
     <div class="container">
         <div class="parent">
             <!-- Profile -->
@@ -1139,7 +1671,7 @@
             </div>
             
             <div class="div4 social-links">
-                <a href="https://www.instagram.com/retropixelpaws/" class="social-button instagram">
+                <a href="https://www.instagram.com/retropixelpaws/" class="social-button instagram-art">
                     <i class="fab fa-instagram"></i>
                     <strong>┏━•❃°•°❀°•°❃•━┓</strong>
                     <strong>  INSTAGRAM ART  </strong>
@@ -1210,312 +1742,74 @@
                 </a>
             </div>
         </div>
+        
+        <!-- Audio controls positioned at the bottom -->
+        <div class="footer-audio-controls">
+            <div class="audio-control-container">
+                <button id="audioToggle" class="audio-button">
+                    <i class="fas fa-volume-mute"></i>
+                </button>
+            </div>
+        </div>
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Prevent zoom on double tap for iOS
-            document.addEventListener('touchstart', function(e) {
-                if (e.touches.length > 1) {
-                    e.preventDefault();
-                }
-            }, { passive: false });
-            
-            // Disable pinch zoom
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
-            }, { passive: false });
-
-            // Force viewport reset to prevent iOS from zooming
-            function resetViewport() {
-                const viewport = document.querySelector('meta[name="viewport"]');
-                if (viewport) {
-                    viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
-                }
-            }
-            
-            // Reset on orientation change and page load
-            window.addEventListener('orientationchange', resetViewport);
-            resetViewport();
-            
-            // Video background handling
-            const video = document.querySelector('.video-background video');
-            
-            // Ensure video plays properly on all devices
-            function setupVideo() {
-                if (!video) return;
-                
-                // Set proper attributes for mobile playback
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('muted', true);
-                video.setAttribute('autoplay', true);
-                video.setAttribute('loop', true);
-                
-                // Handle video loading errors
-                video.addEventListener('error', function() {
-                    console.error('Video loading error');
-                    // Show gradient background as fallback
-                    document.querySelector('.bg-gradient').style.opacity = '1';
-                });
-                
-                // Try to play the video
-                video.play().catch(function(error) {
-                    console.error('Video play error:', error);
-                    // Show gradient background as fallback
-                    document.querySelector('.bg-gradient').style.opacity = '1';
-                });
-            }
-            
-            setupVideo();
-            
-            // Simple audio toggle
-            var bgAudio = document.getElementById('bgAudio');
-            var audioToggle = document.getElementById('audioToggle');
-            var audioIcon = audioToggle.querySelector('i');
-            
-            // Set volume to 50%
-            bgAudio.volume = 0.7;
-            
-            audioToggle.addEventListener('click', function() {
-                if (bgAudio.paused) {
-                    bgAudio.play();
-                    audioIcon.className = 'fas fa-volume-up';
-                } else {
-                    bgAudio.pause();
-                    audioIcon.className = 'fas fa-volume-mute';
-                }
-            });
-            
-            // Auto-start background music
-            const playPromise = bgAudio.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // Autoplay started successfully
-                    audioIcon.className = 'fas fa-volume-up';
-                    console.log('Audio started automatically');
-                }).catch(error => {
-                    // Autoplay was prevented
-                    console.log('Autoplay prevented:', error);
-                    
-                    // Add click event to the entire document to start audio on first interaction
-                    document.addEventListener('click', function startAudio() {
-                        bgAudio.play().then(() => {
-                            audioIcon.className = 'fas fa-volume-up';
-                            console.log('Audio started on user interaction');
-                        }).catch(e => console.log('Audio start failed:', e));
-                        
-                        // Remove the event listener after first click
-                        document.removeEventListener('click', startAudio);
-                    });
-                });
-            }
-            
-            // Enable the click effect on cards
-            var cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div12, .div13, .div14, .div15, .div16');
-            
-            // Add click sound effect
-            function addClickSound() {
-                const clickSound = document.createElement('audio');
-                clickSound.id = 'clickSound';
-                clickSound.preload = 'auto';
-                clickSound.style.display = 'none';
-                
-                const source = document.createElement('source');
-                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
-                source.type = 'audio/mp3';
-                clickSound.appendChild(source);
-                document.body.appendChild(clickSound);
-                return clickSound;
-            }
-            
-            const clickSound = addClickSound();
-            
-            // Add interactive effects to cards
-            cards.forEach(function(card) {
-                // Add sound effect on click
-                card.addEventListener('click', function() {
-                    clickSound.currentTime = 0;
-                    clickSound.play().catch(function() {});
-                    
-                    // Add ripple effect
-                    let ripple = document.createElement('div');
-                    ripple.className = 'ripple';
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
-                });
-            });
-
-            // 3D Card Tilt Effect - Simplified
-            const cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10, .div11, .div12');
-            
-            cards.forEach(card => {
-                card.classList.add('tilt-card');
-                
-                // Desktop tilt effect
-                if (window.matchMedia('(pointer: fine)').matches) {
-                    card.addEventListener('mousemove', e => {
-                        const rect = card.getBoundingClientRect();
-                        const x = e.clientX - rect.left;
-                        const y = e.clientY - rect.top;
-                        
-                        const centerX = rect.width / 2;
-                        const centerY = rect.height / 2;
-                        
-                        const tiltX = (y - centerY) / 15; // Reduced tilt amount
-                        const tiltY = (centerX - x) / 15;
-                        
-                        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
-                    });
-                    
-                    card.addEventListener('mouseleave', () => {
-                        card.style.transform = 'rotateX(0) rotateY(0)';
-                    });
-                }
-                
-                // Touch effect for mobile
-                card.addEventListener('touchstart', () => {
-                    card.style.transform = 'scale(0.98)';
-                });
-                
-                card.addEventListener('touchend', () => {
-                    card.style.transform = 'scale(1)';
-                });
-            });
-
-            // Simple Page Transitions
-            const pageTransition = document.querySelector('.page-transition');
-            const externalLinks = document.querySelectorAll('a[href^="http"]');
-
-            externalLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Only apply to external links
-                    if (this.hostname !== window.location.hostname) {
-                        e.preventDefault();
-                        const href = this.getAttribute('href');
-                        
-                        // Simple fade-out transition
-                        pageTransition.style.transform = 'translateY(0)';
-                        pageTransition.style.opacity = '1';
-                        
-                        // Navigate after animation
-                        setTimeout(() => {
-                            window.location.href = href;
-                        }, 600);
-                    }
-                });
-            });
-
-            // Simple Parallax Effect
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                const profileIcon = document.querySelector('.profile-icon');
-                const profileTitle = document.querySelector('.profile h1');
-                
-                window.addEventListener('scroll', () => {
-                    const scrollY = window.scrollY;
-                    
-                    // Move elements at different speeds
-                    if (profileIcon) {
-                        profileIcon.style.transform = `translateY(${scrollY * 0.1}px)`;
-                    }
-                    
-                    if (profileTitle) {
-                        profileTitle.style.transform = `translateY(${scrollY * 0.05}px) perspective(500px) rotateX(10deg)`;
-                    }
-                });
-            }
-            
-            // Simple Haptic Feedback for Mobile
-            if (window.matchMedia('(pointer: coarse)').matches) {
-                const touchElements = document.querySelectorAll('a, button');
-                
-                touchElements.forEach(el => {
-                    el.addEventListener('touchstart', function() {
-                        this.classList.add('haptic-pulse');
-                        
-                        // Trigger vibration if supported
-                        if (window.navigator && window.navigator.vibrate) {
-                            navigator.vibrate(50);
-                        }
-                    });
-                    
-                    el.addEventListener('touchend', function() {
-                        this.classList.remove('haptic-pulse');
-                    });
-                });
-            }
-        });
-    </script>
-    
-    <!-- Custom cursor elements -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-dot-outline"></div>
-    
-    <!-- Page transition overlay -->
-    <div class="page-transition"></div>
-    
-    <script>
-        // Make sure DOM is loaded before initializing cursor
-        document.addEventListener('DOMContentLoaded', function() {
-            // *********************************************
-            // Custom Cursor - Simple Implementation
-            // *********************************************
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-dot-outline');
-            
-            if (!cursorDot || !cursorOutline) {
-                console.error('Custom cursor elements not found!');
-                return;
-            }
-            
-            // Only initialize cursor on desktop
-            if (window.matchMedia('(pointer: fine)').matches) {
-                // Track mouse position
-                document.addEventListener('mousemove', (e) => {
-                    // Update cursor position
-                    cursorDot.style.left = `${e.clientX}px`;
-                    cursorDot.style.top = `${e.clientY}px`;
-                    cursorOutline.style.left = `${e.clientX}px`;
-                    cursorOutline.style.top = `${e.clientY}px`;
-                });
-                
-                // Cursor effects for links
-                const links = document.querySelectorAll('a, button, .div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10, .div11, .div12');
-                links.forEach(link => {
-                    link.addEventListener('mouseenter', () => {
-                        cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.8)';
-                        cursorOutline.style.backgroundColor = 'rgba(255,255,255,0.1)';
-                    });
-                    
-                    link.addEventListener('mouseleave', () => {
-                        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-                        cursorOutline.style.backgroundColor = 'transparent';
-                    });
-                });
-                
-                // Click effects
-                document.addEventListener('mousedown', () => {
-                    cursorDot.style.transform = 'translate(-50%, -50%) scale(0.75)';
-                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(0.75)';
-                });
-                
-                document.addEventListener('mouseup', () => {
-                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
-                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
-                });
-            }
-            
-            // *********************************************
-            // Rest of the other features...
-            // *********************************************
-        });
-    </script>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get audio elements
+        const bgAudio = document.getElementById('bgAudio');
+        const audioToggle = document.getElementById('audioToggle');
+        const audioIcon = audioToggle.querySelector('i');
+        
+        // Set volume to 70%
+        bgAudio.volume = 0.7;
+        
+        // Function to update the UI based on audio state
+        function updateAudioUI(isPlaying) {
+            if (isPlaying) {
+                audioIcon.className = 'fas fa-volume-up audio-icon-playing';
+            } else {
+                audioIcon.className = 'fas fa-volume-mute';
+            }
+        }
+        
+        // Audio has ended - update UI
+        bgAudio.addEventListener('ended', function() {
+            updateAudioUI(false);
+        });
+        
+        // Handle autoplay
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // Autoplay started successfully
+                updateAudioUI(true);
+            }).catch(error => {
+                // Autoplay was prevented (common on mobile)
+                console.log('Autoplay prevented:', error);
+                updateAudioUI(false);
+            });
+        }
+        
+        // Toggle audio on button click
+        audioToggle.addEventListener('click', function() {
+            if (bgAudio.paused) {
+                bgAudio.play();
+                updateAudioUI(true);
+            } else {
+                bgAudio.pause();
+                updateAudioUI(false);
+            }
+        });
+        
+        // Add touch-hover effect for mobile
+        audioToggle.addEventListener('touchstart', function() {
+            audioToggle.parentNode.classList.add('touch-hover');
+        });
+        
+        audioToggle.addEventListener('touchend', function() {
+            audioToggle.parentNode.classList.remove('touch-hover');
+        });
+    });
+</script>
 </html>
     
