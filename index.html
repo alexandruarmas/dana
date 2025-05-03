@@ -204,30 +204,9 @@
             z-index: -999;
         }
         
-        /* Video Background */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1000;
-            overflow: hidden;
-            pointer-events: none;
-            transform: none; /* Remove any transforms */
-        }
+        /* Background styling is handled by .bg-gradient */
         
-        .video-background video {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform: none; /* Remove transform that might cause zoom */
-            object-fit: cover;
-        }
-        
-        /* Japanese-inspired background gradient - kept as fallback */
+        /* Enhanced background gradient - reliable across all devices */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -238,8 +217,16 @@
             height: 100vh;
             background: linear-gradient(215deg, #0f0a1e 0%, #1c0522 40%, #3b0b40 70%, #5a1060 100%);
             background-size: 300% 300%;
-            z-index: -1001;
+            z-index: -1000;
             animation: bgShift 30s ease infinite alternate;
+        }
+        
+        @keyframes bgShift {
+            0% { background-position: 0% 0%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 100%; }
         }
         
         .parent {
@@ -1635,12 +1622,8 @@
 <body>
     <div class="bg-gradient"></div>
     
-    <!-- Video Background (replacing sakura) -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" id="bgVideo">
-        <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
-        </video>
-    </div>
+    <!-- Gradient Background (more reliable than video) -->
+    <div class="bg-gradient"></div>
     
     <div class="overlay"></div>
     
@@ -1826,69 +1809,7 @@
                 });
             });
             
-            // Enhanced video background handling specifically for iOS
-            const video = document.getElementById('bgVideo');
-            if (video) {
-                // Set proper attributes for mobile playback
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('muted', true);
-                video.setAttribute('autoplay', true);
-                video.setAttribute('loop', true);
-                
-                // Force unmute and then mute again to trick iOS
-                video.muted = false;
-                video.muted = true;
-                
-                // iOS-specific handling - force play on any user interaction
-                document.body.addEventListener('touchstart', function() {
-                    video.play().catch(e => console.log('Video play attempt from touch:', e));
-                }, { once: false });
-                
-                // Try multiple play attempts with increasing delays
-                video.play().catch(function(error) {
-                    console.log('First play attempt failed:', error);
-                    
-                    setTimeout(() => {
-                        video.play().catch(e => {
-                            console.log('Second play attempt failed:', e);
-                            
-                            setTimeout(() => {
-                                video.play().catch(e => {
-                                    console.log('Third play attempt failed:', e);
-                                    // Show gradient background as fallback after all attempts fail
-                                    document.querySelector('.bg-gradient').style.opacity = '1';
-                                });
-                            }, 1000);
-                        });
-                    }, 500);
-                });
-                
-                // Monitor if video is actually playing
-                let isPlaying = false;
-                video.addEventListener('playing', function() {
-                    isPlaying = true;
-                    console.log('Video is now playing');
-                });
-                
-                video.addEventListener('pause', function() {
-                    isPlaying = false;
-                    console.log('Video paused - attempting to resume');
-                    // Try to resume if paused
-                    video.play().catch(e => console.log('Resume attempt failed:', e));
-                });
-                
-                // Additional check to see if video actually started playing
-                setTimeout(() => {
-                    if (!isPlaying) {
-                        console.log('Video not playing after timeout - final attempt');
-                        video.play().catch(e => {
-                            console.log('Final play attempt failed:', e);
-                            document.querySelector('.bg-gradient').style.opacity = '1';
-                        });
-                    }
-                }, 2000);
-            }
+            // No video background handling needed - using reliable gradient background
             
             // Override any touchstart events that might remove the touch-hover class
             document.addEventListener('touchstart', function(e) {
