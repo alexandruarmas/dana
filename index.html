@@ -1810,7 +1810,7 @@
             audioToggle.parentNode.classList.remove('touch-hover');
         });
         
-        // Apply effects by default on mobile devices
+        // Apply effects by default on mobile devices - ALWAYS KEEP ACTIVE
         if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             // Get all card elements
             const cards = document.querySelectorAll('.div3, .div4, .div5, .div6, .div7, .div8, .div10, .div11');
@@ -1819,11 +1819,45 @@
             cards.forEach(function(card) {
                 card.classList.add('touch-hover');
                 
-                // Add touch start/end listeners for toggling
-                card.addEventListener('touchstart', function() {
-                    // Keep the effect applied when touched
-                    this.classList.add('touch-hover');
+                // Find any service-specific elements inside the card
+                const specialElements = card.querySelectorAll('.instagram, .instagram-art, .tiktok, .youtube, .soundcloud, .twitter, .shop, .featured-item, .contact-me, .create-page-button, .alex-section');
+                specialElements.forEach(function(element) {
+                    element.classList.add('touch-hover');
                 });
+            });
+            
+            // Add video background handling from working backup
+            const video = document.querySelector('.video-background video');
+            if (video) {
+                // Set proper attributes for mobile playback
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('muted', true);
+                video.setAttribute('autoplay', true);
+                video.setAttribute('loop', true);
+                
+                // Try to play the video
+                video.play().catch(function(error) {
+                    console.error('Video play error:', error);
+                    // Show gradient background as fallback
+                    document.querySelector('.bg-gradient').style.opacity = '1';
+                });
+            }
+            
+            // Override any touchstart events that might remove the touch-hover class
+            document.addEventListener('touchstart', function(e) {
+                // Re-apply touch-hover class to all cards
+                setTimeout(() => {
+                    cards.forEach(function(card) {
+                        card.classList.add('touch-hover');
+                        
+                        // Find any service-specific elements inside the card
+                        const specialElements = card.querySelectorAll('.instagram, .instagram-art, .tiktok, .youtube, .soundcloud, .twitter, .shop, .featured-item, .contact-me, .create-page-button, .alex-section');
+                        specialElements.forEach(function(element) {
+                            element.classList.add('touch-hover');
+                        });
+                    });
+                }, 10);
             });
         }
     });
