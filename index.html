@@ -1637,7 +1637,7 @@
     
     <!-- Video Background (replacing sakura) -->
     <div class="video-background">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" id="bgVideo">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
     </div>
@@ -1826,8 +1826,8 @@
                 });
             });
             
-            // Add video background handling from working backup
-            const video = document.querySelector('.video-background video');
+            // Enhanced video background handling specifically for iOS
+            const video = document.getElementById('bgVideo');
             if (video) {
                 // Set proper attributes for mobile playback
                 video.setAttribute('playsinline', '');
@@ -1836,12 +1836,58 @@
                 video.setAttribute('autoplay', true);
                 video.setAttribute('loop', true);
                 
-                // Try to play the video
+                // Force unmute and then mute again to trick iOS
+                video.muted = false;
+                video.muted = true;
+                
+                // iOS-specific handling - force play on any user interaction
+                document.body.addEventListener('touchstart', function() {
+                    video.play().catch(e => console.log('Video play attempt from touch:', e));
+                }, { once: false });
+                
+                // Try multiple play attempts with increasing delays
                 video.play().catch(function(error) {
-                    console.error('Video play error:', error);
-                    // Show gradient background as fallback
-                    document.querySelector('.bg-gradient').style.opacity = '1';
+                    console.log('First play attempt failed:', error);
+                    
+                    setTimeout(() => {
+                        video.play().catch(e => {
+                            console.log('Second play attempt failed:', e);
+                            
+                            setTimeout(() => {
+                                video.play().catch(e => {
+                                    console.log('Third play attempt failed:', e);
+                                    // Show gradient background as fallback after all attempts fail
+                                    document.querySelector('.bg-gradient').style.opacity = '1';
+                                });
+                            }, 1000);
+                        });
+                    }, 500);
                 });
+                
+                // Monitor if video is actually playing
+                let isPlaying = false;
+                video.addEventListener('playing', function() {
+                    isPlaying = true;
+                    console.log('Video is now playing');
+                });
+                
+                video.addEventListener('pause', function() {
+                    isPlaying = false;
+                    console.log('Video paused - attempting to resume');
+                    // Try to resume if paused
+                    video.play().catch(e => console.log('Resume attempt failed:', e));
+                });
+                
+                // Additional check to see if video actually started playing
+                setTimeout(() => {
+                    if (!isPlaying) {
+                        console.log('Video not playing after timeout - final attempt');
+                        video.play().catch(e => {
+                            console.log('Final play attempt failed:', e);
+                            document.querySelector('.bg-gradient').style.opacity = '1';
+                        });
+                    }
+                }, 2000);
             }
             
             // Override any touchstart events that might remove the touch-hover class
