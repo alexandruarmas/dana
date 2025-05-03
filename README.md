@@ -58,7 +58,7 @@ Daniela Armaș is an interactive personal links webpage for Dana Anniella, featu
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/mrarmas02/khimsy.git
+git clone https://github.com/alexandruarmas/dana
 ```
 
 2. Ensure the following directory structure:
