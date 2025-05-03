@@ -1622,7 +1622,7 @@
             overflow: hidden;
             pointer-events: none;
             transform: none !important; /* Force no transform */
-            opacity: 1;
+            opacity: 1; /* Return to full opacity */
             visibility: visible;
             will-change: auto; /* Reduce GPU memory pressure */
         }
@@ -1635,13 +1635,13 @@
             left: 0;
             transform: none !important; /* Force no transform */
             object-fit: cover;
-            opacity: 1;
+            opacity: 1; /* Return to full opacity */
             visibility: visible;
             display: block;
             will-change: auto; /* Reduce GPU memory pressure */
         }
 
-        /* iOS-specific video hack to ensure the video displays properly */
+        /* iOS-specific video hack - simplified */
         @supports (-webkit-touch-callout: none) {
             .video-background {
                 background-color: #000; /* Black fallback */
@@ -1649,7 +1649,7 @@
             }
             
             .video-background video {
-                position: fixed !important; /* Force proper positioning on iOS */
+                position: fixed !important;
                 z-index: 0 !important;
                 top: 0 !important;
                 left: 0 !important;
@@ -1657,50 +1657,10 @@
                 min-height: 100% !important;
                 width: 100% !important;
                 height: 100% !important;
-                transform: none !important; /* Simplified transform */
+                transform: none !important;
                 object-fit: cover !important;
-                transform-style: flat !important; /* Reduce GPU memory usage */
-                opacity: 0.85 !important; /* Make video slightly transparent on mobile */
-            }
-            
-            /* Fix for mobile - add cosmic cat color overlay */
-            body::before {
-                content: '';
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: linear-gradient(45deg, rgba(0,0,60,0.7) 0%, rgba(128,0,128,0.6) 50%, rgba(255,0,150,0.5) 100%);
-                z-index: 0;
-                pointer-events: none;
-            }
-            
-            /* Force color consistency on mobile devices */
-            .div13.profile h1 {
-                background: linear-gradient(120deg, #ffffff 0%, #76c6ff 25%, #ffffff 35%, #5dacee 65%, #ffffff 75%, #76c6ff 100%) !important;
-                -webkit-background-clip: text !important;
-                background-clip: text !important;
-                -webkit-text-fill-color: transparent !important;
-                text-shadow: 0 0 15px rgba(93, 172, 238, 0.8), 0 0 25px rgba(93, 172, 238, 0.6) !important;
-            }
-            
-            .div13.profile .bio {
-                background: linear-gradient(120deg, #ffd700 0%, #ffcc33 25%, #ffeeaa 50%, #ffcc33 75%, #ffd700 100%) !important;
-                -webkit-background-clip: text !important;
-                background-clip: text !important;
-                -webkit-text-fill-color: transparent !important;
-            }
-            
-            /* Make video more visible on iOS */
-            @media only screen and (max-width: 767px) {
-                .video-background video {
-                    opacity: 0.7 !important;
-                }
-                
-                body::before {
-                    background: linear-gradient(45deg, rgba(0,0,60,0.6) 0%, rgba(128,0,128,0.5) 50%, rgba(255,0,150,0.4) 100%);
-                }
+                transform-style: flat !important;
+                opacity: 1 !important; /* Return to full opacity */
             }
         }
     </style>
@@ -2031,35 +1991,48 @@
         console.error("Video playback error:", e);
     }
 
-    // Add mobile cosmic theme appearance if video fails
+    // Remove unwanted overlay code
+    // Replacing the old cosmic cat fallback code with empty code
     const applyCosmicCatFallback = () => {
-        // Check if we're on iOS or if video has failed
-        if(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || (video && video.paused)) {
-            console.log("Applying cosmic cat theme fallback for mobile");
-            
-            // Add cosmic cat overlay
-            const overlay = document.createElement('div');
-            overlay.style.position = 'fixed';
-            overlay.style.top = '0';
-            overlay.style.left = '0';
-            overlay.style.width = '100vw';
-            overlay.style.height = '100vh';
-            overlay.style.zIndex = '0';
-            overlay.style.pointerEvents = 'none';
-            overlay.style.background = 'linear-gradient(45deg, rgba(0,0,60,0.7) 0%, rgba(128,0,128,0.6) 50%, rgba(255,0,150,0.5) 100%)';
-            
-            // Add it to the body
-            document.body.appendChild(overlay);
-            
-            // Make video partially visible if it exists
-            if(video) {
-                video.style.opacity = '0.7';
-            }
-        }
+        // Empty function - no overlay will be applied
     };
 
-    // Check if video playback fails and apply fallback
-    setTimeout(applyCosmicCatFallback, 2000);
+    // Remove DOM content loaded event listener that was adding overlays
+    // And remove the setTimeout call for the overlay
+
+    // Simplified video playback - ensure consistency across platforms
+    const ensureVideoPlayback = () => {
+        const video = document.querySelector('#bgVideo');
+        if (!video) return;
+        
+        // Make sure video attributes are set correctly
+        video.muted = true;
+        video.playsInline = true;
+        video.autoplay = true;
+        video.loop = true;
+        
+        // Set attributes for iOS
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        video.setAttribute('muted', '');
+        video.setAttribute('autoplay', '');
+        video.setAttribute('loop', '');
+        
+        // Force play
+        video.play().catch(e => {
+            console.warn("Video play failed, retrying:", e);
+            // Try again with a delay
+            setTimeout(() => {
+                video.load();
+                video.play().catch(err => console.error("Final play attempt failed:", err));
+            }, 1000);
+        });
+    };
+
+    // Call after a short delay to ensure DOM is ready
+    setTimeout(ensureVideoPlayback, 500);
+    // Check again after 2 seconds
+    setTimeout(ensureVideoPlayback, 2000);
 </script>
 </html>
     
