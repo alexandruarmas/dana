@@ -1663,12 +1663,17 @@
                 opacity: 1 !important; /* Return to full opacity */
             }
         }
+
+        /* Mobile video fix - add a fallback background color */
+        .video-background {
+            background-color: #1c1339 !important; /* Purple/blue fallback color if video fails */
+        }
     </style>
 </head>
 <body>
     <!-- VIDEO ONLY - NO FALLBACKS WHATSOEVER -->
     <div class="video-background">
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;" id="bgVideo">
+        <video id="bgVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;" x5-video-player-type="h5" x5-video-player-fullscreen="true" x5-playsinline="true">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
     </div>
@@ -2033,6 +2038,58 @@
     setTimeout(ensureVideoPlayback, 500);
     // Check again after 2 seconds
     setTimeout(ensureVideoPlayback, 2000);
+
+    // Mobile video fix - more aggressive approach
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get the video element
+        const video = document.querySelector('#bgVideo');
+        if (!video) return;
+        
+        // Function to force play video with multiple attempts
+        const forcePlayVideo = function() {
+            console.log("Attempting to force play video");
+            
+            // Make sure video has correct properties
+            video.muted = true;
+            video.playsInline = true;
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            video.setAttribute('muted', '');
+            
+            // Force reload and play
+            video.load();
+            
+            // Play with retry mechanism
+            const playAttempt = video.play();
+            if (playAttempt) {
+                playAttempt.catch(function(error) {
+                    console.log('Play attempt failed:', error);
+                    // Try again after 1 second
+                    setTimeout(forcePlayVideo, 1000);
+                });
+            }
+        };
+        
+        // Mobile-specific handling
+        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+            console.log("Mobile device detected - applying special video handling");
+            
+            // Try playing immediately
+            forcePlayVideo();
+            
+            // Try again after page is fully loaded
+            window.addEventListener('load', forcePlayVideo);
+            
+            // And again after a short delay
+            setTimeout(forcePlayVideo, 500);
+            setTimeout(forcePlayVideo, 2000);
+            
+            // Touch event to trigger video (for iOS)
+            document.body.addEventListener('touchstart', function() {
+                forcePlayVideo();
+            }, {once: true});
+        }
+    });
 </script>
 </html>
     
