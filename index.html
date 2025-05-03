@@ -8,6 +8,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600&family=Playfair+Display:wght@400;500;600&display=swap">
     <style>
+        /* Add Fortnite Burbank font */
+        @font-face {
+            font-family: 'Burbank';
+            src: url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-black.woff2') format('woff2'),
+                 url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-black.woff') format('woff');
+            font-weight: 800;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Burbank';
+            src: url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-bold.woff2') format('woff2'),
+                 url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-bold.woff') format('woff');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Burbank';
+            src: url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-medium.woff2') format('woff2'),
+                 url('https://cdn.statically.io/gh/arcturus5340/sharex/master/fonts/burbank-big-condensed-medium.woff') format('woff');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        /* Custom cursor styles */
+        .cursor-dot,
+        .cursor-dot-outline {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 99999;
+            will-change: transform;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-dot {
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+        
+        .cursor-dot-outline {
+            width: 40px;
+            height: 40px;
+            background-color: transparent;
+            border: 2px solid white;
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        
+        /* Hide native cursor on desktop */
+        @media (pointer: fine) {
+            body {
+                cursor: none !important;
+            }
+            
+            a, button, .div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10, .div11, .div12 {
+                cursor: none !important;
+            }
+        }
+        
+        /* Expanded cursor on hover */
+        a:hover ~ .cursor-dot-outline,
+        button:hover ~ .cursor-dot-outline {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Reduced cursor for text */
+        p:hover ~ .cursor-dot-outline,
+        h1:hover ~ .cursor-dot-outline,
+        h2:hover ~ .cursor-dot-outline,
+        h3:hover ~ .cursor-dot-outline {
+            width: 15px;
+            height: 15px;
+        }
+        
+        /* Parallax container */
+        .parallax-container {
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+        
+        .parallax-layer {
+            position: relative;
+            pointer-events: none;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+        
+        /* Page transition container */
+        .page-transition {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9000;
+            pointer-events: none;
+            background-color: black;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        /* For 3D card tilt effect */
+        .tilt-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            will-change: transform;
+            transition: transform 0.1s ease;
+        }
+        
+        .tilt-card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease-out;
+        }
+        
+        /* Haptic feedback animation */
+        @keyframes hapticPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.98); }
+            100% { transform: scale(1); }
+        }
+        
+        .haptic-pulse {
+            animation: hapticPulse 0.15s ease-in-out;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -403,7 +546,7 @@
         
         .alex-section:hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(0, 102, 255, 0.5);
+            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5); /* blue-violet shadow */
             background-position: 100% 100%;
             animation: gradientShift 3s ease infinite;
         }
@@ -485,6 +628,8 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             padding: 15px;
             margin: 0;
+            position: relative;
+            overflow: hidden; /* Ensure content doesn't overflow */
         }
 
         .contact-me:hover {
@@ -496,6 +641,7 @@
             font-size: 32px;
             margin-bottom: 8px;
             color: white;
+            padding-top: 8px; /* Reduced padding to prevent overflow */
         }
 
         .contact-me strong {
@@ -504,16 +650,24 @@
             font-weight: 600;
         }
 
-        /* Fix the div8 container to ensure proper height */
+        /* Fix the div8 container to ensure proper height and containment */
         .div8 {
             min-height: 120px;
             height: 120px;
             margin: 3px;
+            overflow: hidden; /* Keep content inside the container */
         }
-
-        /* Override footer-link styles for the contact button */
-        .footer-link a.contact-me {
-            padding: 15px;
+        
+        /* Special reduced bounce just for Contact Me icon */
+        @keyframes contactIconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* Override the default icon bounce for the Contact Me button */
+        .div8:hover .contact-me i {
+            animation: contactIconBounce 0.8s ease infinite !important;
+            transform-origin: center;
         }
 
         /* Beacons button */
@@ -526,7 +680,7 @@
 
         /* Create your own page - ENHANCED WITH GRADIENT ANIMATIONS */
         .create-page-button {
-            background: linear-gradient(135deg, #ff3366, #ff5e62, #ff9966);
+            background: linear-gradient(135deg, #1a1a2e, #3a0ca3, #7209b7);
             background-size: 200% 200%;
             color: white;
             border-radius: 20px;
@@ -540,7 +694,7 @@
             padding: 0;
             text-decoration: none;
             font-weight: bold;
-            box-shadow: 0 6px 15px rgba(255, 51, 102, 0.3);
+            box-shadow: 0 6px 15px rgba(58, 12, 163, 0.3);
             position: relative;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
@@ -548,7 +702,7 @@
         
         .create-page-button:hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(255, 51, 102, 0.5);
+            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5); /* deep violet shadow */
             background-position: 100% 100%;
             animation: gradientShift 3s ease infinite;
         }
@@ -915,48 +1069,27 @@
             margin: 3px;
         }
 
-        /* Scrollbar with red gradient - updated */
+        /* Apple-style minimal scrollbar */
         ::-webkit-scrollbar {
-            width: 15px;
-            height: 15px;
+            width: 10px;
+            height: 10px;
         }
-
         ::-webkit-scrollbar-track {
-            background: #000000;
-            border-left: 2px solid rgba(255, 0, 0, 0.2);
+            background: transparent;
         }
-
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #ff0033, #ff3333, #ff6666);
-            background-size: 200% 200%;
-            border-radius: 6px;
-            border: 1px solid #ff0033;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
-            animation: gradientShift 3s ease infinite;
+            background: rgba(120,120,128,0.3); /* Subtle gray */
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: background 0.2s;
         }
-
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #ff3333, #ff6666, #ff0033);
-            background-size: 200% 200%;
+            background: rgba(120,120,128,0.5);
         }
-
-        /* Edge and Firefox scrollbar fallback */
         html {
-            scrollbar-color: #ff3333 #000000 !important;
+            scrollbar-color: rgba(120,120,128,0.3) transparent !important;
             scrollbar-width: thin;
-        }
-
-        /* Override previous scrollbar styling */
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.8) !important;
-            border-left: 2px solid rgba(255, 0, 0, 0.2) !important;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #ff0033, #ff3333, #ff6666) !important;
-            background-size: 200% 200% !important;
-            border: 1px solid #ff0033 !important;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
         }
     </style>
 </head>
@@ -997,42 +1130,52 @@
             <div class="div3 promo-link">
                 <a href="https://collabstr.com/khimsy" class="featured-item">
                     <i class="fas fa-handshake"></i>
-                    <strong>Promote with Daniela</strong>
+                    <strong>┏━•❃°•°❀°•°❃•━┓</strong>
+                    <strong> CONTENT PROMOTE       </strong>
+                    <strong>┗━•❃°•°❀°•°❃•━┛</strong>
                     <span class="link-description">Instagram, TikTok & UGC Influencer</span>
-                    <span class="link-description">Work with Daniela on Collabstr, the world's largest influencer marketing platform.</span>
+                    <span class="link-description">Work with Daniela on Collabstr.com , world's largest influencers marketing platform.</span>
                 </a>
             </div>
             
             <div class="div4 social-links">
                 <a href="https://www.instagram.com/retropixelpaws/" class="social-button instagram">
                     <i class="fab fa-instagram"></i>
-                    <strong>Instagram Art | Transforming Views</strong>
-                    <div class="link-description">Capturing ambiance & moods I find in my life.</div>
-                    <div class="link-description">• Aesthetic - Nature - Photography - Street - Faith - My mind - My soul</div>
+                    <strong>┏━•❃°•°❀°•°❃•━┓</strong>
+                    <strong>  INSTAGRAM ART  </strong>
+                    <strong>┗━•❃°•°❀°•°❃•━┛</strong>
+                    <div class="link-description">Reflecting the moods and moments that color my life </div>
+                    <div class="link-description"> through aesthetics, nature, street scenes, faith, and the quiet corners of my mind and soul ﮩ٨ـﮩﮩ٨ـ♡ﮩ٨ـﮩﮩ٨ـ</div>
                 </a>
             </div>
             
             <div class="div5 social-links">
                 <a href="https://instagram.com/daniela.anniella" class="social-button instagram">
                     <i class="fab fa-instagram"></i>
-                    <strong>Instagram</strong>
-                    <div class="link-description">Daily photos, videos, music like, products, poems etc. ❤️</div>
+                    <strong>┏━•❃°•°❀°•°❃•━┓</strong>
+                    <strong>    INSTAGRAM    </strong>
+                    <strong>┗━•❃°•°❀°•°❃•━┛</strong>
+                    <div class="link-description">A daily mix of photos, videos, music, creations, poetry, and more 𓆩ꨄ︎ꨄ︎ꨄ︎𓆪</div>
                 </a>
             </div>
             
             <div class="div6 link-item">
                 <a href="https://www.tiktok.com/@dana.anniella" class="platform-button tiktok">
                     <i class="fab fa-tiktok"></i>
-                    <strong>TikTok Personal</strong>
-                    <span class="link-description">Art - Nature</span>
+                    <strong>┏━•❃°•°❀°•°❃•━┓</strong>
+                    <strong>      TIKTOK       </strong>
+                    <strong>┗━•❃°•°❀°•°❃•━┛</strong>
+                    <span class="link-description">𖣔 Creative, Artistic, Aesthetic, Expressive, Personal 𖣔</span>
                 </a>
             </div>
             
             <div class="div7 link-item">
                 <a href="https://soundcloud.com/danaanniella" class="platform-button soundcloud">
                     <i class="fab fa-soundcloud"></i>
-                    <strong>SoundCloud</strong>
-                    <span class="link-description">Life is better with MUSIC 🎧</span>
+                    <strong>┏━•❃°•°❀°•°❃•━┓</strong>
+                    <strong>    SOUNDCLOUD   </strong>
+                    <strong>┗━•❃°•°❀°•°❃•━┛</strong>
+                    <span class="link-description">Atmospheric, Romantic, Experimental, Expressive, Artistic 🎵🎵🎵</span>
                 </a>
             </div>
             
@@ -1041,6 +1184,7 @@
                 <a href="https://qrco.de/bfxffX" class="contact-me">
                     <i class="fas fa-address-card"></i>
                     <strong>Contact Me</strong>
+                    <strong>✎﹏﹏﹏﹏﹏﹏</strong>
                 </a>
             </div>
             
@@ -1051,7 +1195,7 @@
             
             <!-- Make your own page moved to div10 -->
             <div class="div10 site-promo">
-                <a href="https://qrco.de/bfxE60" class="create-page-button">
+                <a href="https://qrco.de/bfxfXK" class="create-page-button">
                     <strong>Create Your Own Page!</strong>
                     <span class="link-description">Get a stylish page like this in minutes</span>
                 </a>
@@ -1060,7 +1204,7 @@
             <!-- Alexandru Armas - move inside the grid as div11 -->
             <div class="div11">
                 <a href="https://alexandruarmas.ro/" class="alex-section">
-                    <strong>Alexandru Armaş</strong>
+                    <strong>𓀣Alexandru Armaş𓀢 </strong>
                     <span class="link-description">Full-Stack</span>
                     <span class="link-description">UI/UX Developer</span>
                 </a>
@@ -1131,8 +1275,8 @@
             var audioIcon = audioToggle.querySelector('i');
             
             // Set volume to 50%
-            bgAudio.volume = 0.3;
-
+            bgAudio.volume = 0.7;
+            
             audioToggle.addEventListener('click', function() {
                 if (bgAudio.paused) {
                     bgAudio.play();
@@ -1179,7 +1323,7 @@
                 clickSound.style.display = 'none';
                 
                 const source = document.createElement('source');
-                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
+                source.src = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAuLi4uLi4uLi4uLi4uLi4uLi4uLjIyMjIyMjIyMjIyMjIyMjIyMjIyMjI6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo6Ojo//////////////////////////////////////////////////////////////////8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAYAAAAAAAAAAbCs7gc8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/+MYxAANwAKXlQQAANz3NvXl/djDPz7P+fo//////9L/3Kjo+vzw+vz7+v6sNBjT7qQEYoAQaS11c9vtf///+n2f//y9B2EzRUSZgAQw3QaF0tS13////////+v/8dFP9/jFJbZsAgQYEPDAVWrIyRUW////////6///+vaTc4ehOTSMJIzE0BQaZUWDARyuK3////////t////ojfMM6UdL/6REjRdgBBDgYFLjQY2JIidf///////R//q/09v1SdXVGjSJlAYA92T0DVs5KyVn////////7f////TSVhIRcGCgBQAHGRIqDEBn/+MYxCMNQSq9lE8MANoAADnC6FnQpO5//////X////9P//KYxFEgIQGMZDCArhwGDMQCBgHZdnJkrn///////9X///T+v//iJwuFwuAKAxIGJA5IKJBRIUiIiIiIiInC4XC4U/////////////////////wQEBAQEUTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5P/////////////////////////////////////////////////////////////////8=';
                 source.type = 'audio/mp3';
                 clickSound.appendChild(source);
                 document.body.appendChild(clickSound);
@@ -1205,6 +1349,171 @@
                     }, 600);
                 });
             });
+
+            // 3D Card Tilt Effect - Simplified
+            const cards = document.querySelectorAll('.div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10, .div11, .div12');
+            
+            cards.forEach(card => {
+                card.classList.add('tilt-card');
+                
+                // Desktop tilt effect
+                if (window.matchMedia('(pointer: fine)').matches) {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        
+                        const tiltX = (y - centerY) / 15; // Reduced tilt amount
+                        const tiltY = (centerX - x) / 15;
+                        
+                        card.style.transform = `rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+                    });
+                    
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'rotateX(0) rotateY(0)';
+                    });
+                }
+                
+                // Touch effect for mobile
+                card.addEventListener('touchstart', () => {
+                    card.style.transform = 'scale(0.98)';
+                });
+                
+                card.addEventListener('touchend', () => {
+                    card.style.transform = 'scale(1)';
+                });
+            });
+
+            // Simple Page Transitions
+            const pageTransition = document.querySelector('.page-transition');
+            const externalLinks = document.querySelectorAll('a[href^="http"]');
+
+            externalLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Only apply to external links
+                    if (this.hostname !== window.location.hostname) {
+                        e.preventDefault();
+                        const href = this.getAttribute('href');
+                        
+                        // Simple fade-out transition
+                        pageTransition.style.transform = 'translateY(0)';
+                        pageTransition.style.opacity = '1';
+                        
+                        // Navigate after animation
+                        setTimeout(() => {
+                            window.location.href = href;
+                        }, 600);
+                    }
+                });
+            });
+
+            // Simple Parallax Effect
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                const profileIcon = document.querySelector('.profile-icon');
+                const profileTitle = document.querySelector('.profile h1');
+                
+                window.addEventListener('scroll', () => {
+                    const scrollY = window.scrollY;
+                    
+                    // Move elements at different speeds
+                    if (profileIcon) {
+                        profileIcon.style.transform = `translateY(${scrollY * 0.1}px)`;
+                    }
+                    
+                    if (profileTitle) {
+                        profileTitle.style.transform = `translateY(${scrollY * 0.05}px) perspective(500px) rotateX(10deg)`;
+                    }
+                });
+            }
+            
+            // Simple Haptic Feedback for Mobile
+            if (window.matchMedia('(pointer: coarse)').matches) {
+                const touchElements = document.querySelectorAll('a, button');
+                
+                touchElements.forEach(el => {
+                    el.addEventListener('touchstart', function() {
+                        this.classList.add('haptic-pulse');
+                        
+                        // Trigger vibration if supported
+                        if (window.navigator && window.navigator.vibrate) {
+                            navigator.vibrate(50);
+                        }
+                    });
+                    
+                    el.addEventListener('touchend', function() {
+                        this.classList.remove('haptic-pulse');
+                    });
+                });
+            }
+        });
+    </script>
+    
+    <!-- Custom cursor elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-dot-outline"></div>
+    
+    <!-- Page transition overlay -->
+    <div class="page-transition"></div>
+    
+    <script>
+        // Make sure DOM is loaded before initializing cursor
+        document.addEventListener('DOMContentLoaded', function() {
+            // *********************************************
+            // Custom Cursor - Simple Implementation
+            // *********************************************
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-dot-outline');
+            
+            if (!cursorDot || !cursorOutline) {
+                console.error('Custom cursor elements not found!');
+                return;
+            }
+            
+            // Only initialize cursor on desktop
+            if (window.matchMedia('(pointer: fine)').matches) {
+                // Track mouse position
+                document.addEventListener('mousemove', (e) => {
+                    // Update cursor position
+                    cursorDot.style.left = `${e.clientX}px`;
+                    cursorDot.style.top = `${e.clientY}px`;
+                    cursorOutline.style.left = `${e.clientX}px`;
+                    cursorOutline.style.top = `${e.clientY}px`;
+                });
+                
+                // Cursor effects for links
+                const links = document.querySelectorAll('a, button, .div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10, .div11, .div12');
+                links.forEach(link => {
+                    link.addEventListener('mouseenter', () => {
+                        cursorDot.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.8)';
+                        cursorOutline.style.backgroundColor = 'rgba(255,255,255,0.1)';
+                    });
+                    
+                    link.addEventListener('mouseleave', () => {
+                        cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+                        cursorOutline.style.backgroundColor = 'transparent';
+                    });
+                });
+                
+                // Click effects
+                document.addEventListener('mousedown', () => {
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(0.75)';
+                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(0.75)';
+                });
+                
+                document.addEventListener('mouseup', () => {
+                    cursorDot.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+                });
+            }
+            
+            // *********************************************
+            // Rest of the other features...
+            // *********************************************
         });
     </script>
 </body>
