@@ -204,14 +204,14 @@
             z-index: -999;
         }
         
-        /* Video Background */
+        /* Video Background - HIGHEST PRIORITY */
         .video-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -1000;
+            z-index: -999; /* HIGHER PRIORITY than gradient */
             overflow: hidden;
             pointer-events: none;
             transform: none; /* Remove any transforms */
@@ -225,6 +225,7 @@
             left: 0;
             transform: none; /* Remove transform that might cause zoom */
             object-fit: cover;
+            z-index: -998; /* HIGHEST z-index of all backgrounds */
         }
         
         /* Japanese-inspired background gradient - kept as fallback */
@@ -238,11 +239,9 @@
             height: 100vh;
             background: linear-gradient(215deg, #0f0a1e 0%, #1c0522 40%, #3b0b40 70%, #5a1060 100%);
             background-size: 300% 300%;
-            z-index: -1001;
+            z-index: -1001; /* IMPORTANT: Lower than video (-1000) */
             animation: bgShift 30s ease infinite alternate;
         }
-        
-        /* This is now handled by the Japanese-inspired gradient above */
         
         @keyframes bgShift {
             0% { background-position: 0% 0%; }
@@ -1640,14 +1639,16 @@
             padding: 0;
             text-align: center;
         }
+
+        /* Removed body::before gradient that was blocking video */
     </style>
 </head>
 <body>
     <div class="bg-gradient" style="opacity: 0;"></div>
     
-    <!-- Video Background (replacing sakura) -->
+    <!-- Video Background (forced priority) -->
     <div class="video-background">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline preload="auto" id="bgVideo" style="z-index: -999;">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
     </div>
@@ -1836,21 +1837,36 @@
                 });
             });
             
-            // Video background handling from working backup
+            // ENHANCED Video background handling - fixed for iOS
             const video = document.querySelector('.video-background video');
             if (video) {
-                // Set proper attributes for mobile playback
+                // Force all video attributes
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
                 video.setAttribute('muted', true);
                 video.setAttribute('autoplay', true);
                 video.setAttribute('loop', true);
                 
-                // Try to play the video
+                // Initialize video with explicit load
+                video.load();
+
+                // Try with document interaction
+                document.addEventListener('touchstart', function videoStart() {
+                    video.play();
+                    document.removeEventListener('touchstart', videoStart);
+                }, {once: true});
+                
+                // Also try direct play
                 video.play().catch(function(error) {
                     console.error('Video play error:', error);
-                    // Show gradient background as fallback
+                    // Show gradient background as fallback only if video fails
                     document.querySelector('.bg-gradient').style.opacity = '1';
+                });
+                
+                // Monitor video status
+                video.addEventListener('playing', function() {
+                    console.log('Video is now playing');
+                    document.querySelector('.bg-gradient').style.opacity = '0';
                 });
             }
             
