@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Dana Anniella - Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600&family=Playfair+Display:wght@400;500;600&display=swap">
@@ -179,6 +181,8 @@
             line-height: 1.6;
             padding-bottom: 50px;
             position: relative;
+            /* Make sure content is visible */
+            z-index: auto;
         }
         
         .container {
@@ -1614,6 +1618,8 @@
             overflow: hidden;
             pointer-events: none;
             transform: none; /* Remove any transforms */
+            opacity: 1;
+            visibility: visible;
         }
         
         .video-background video {
@@ -1624,13 +1630,46 @@
             left: 0;
             transform: none; /* Remove transform that might cause zoom */
             object-fit: cover;
+            opacity: 1;
+            visibility: visible;
+            display: block;
+        }
+
+        /* iOS-specific video hack to ensure the video displays properly */
+        @supports (-webkit-touch-callout: none) {
+            .video-background {
+                background-color: #000; /* Black fallback */
+                z-index: 0 !important; /* Force proper z-index on iOS */
+            }
+            
+            .video-background video {
+                position: fixed !important; /* Force proper positioning on iOS */
+                z-index: 0 !important;
+                top: 50% !important;
+                left: 50% !important;
+                min-width: 100% !important;
+                min-height: 100% !important;
+                width: auto !important;
+                height: auto !important;
+                transform: translateX(-50%) translateY(-50%) !important;
+                -webkit-transform: translateX(-50%) translateY(-50%) !important;
+                object-fit: cover !important;
+            }
+            
+            /* Force proper z-index stacking context */
+            html, body {
+                transform: translate3d(0, 0, 0);
+                -webkit-transform: translate3d(0, 0, 0);
+                perspective: 1000;
+                -webkit-perspective: 1000;
+            }
         }
     </style>
 </head>
 <body>
     <!-- VIDEO ONLY - NO FALLBACKS WHATSOEVER -->
     <div class="video-background">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
     </div>
@@ -1747,6 +1786,39 @@
     </div>
 </body>
 <script>
+    // Advanced iOS video autoplay hack - no tapping required
+    window.onload = function() {
+        const video = document.querySelector('.video-background video');
+        if (video) {
+            // Force iOS to play video without user interaction
+            video.playsInline = true;
+            video.muted = true;
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
+            
+            // Create silent audio context to unlock media autoplay
+            let audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            let silentAudio = audioContext.createBuffer(1, 1, 22050);
+            let silentSource = audioContext.createBufferSource();
+            silentSource.buffer = silentAudio;
+            silentSource.connect(audioContext.destination);
+            silentSource.start();
+            
+            // Multiple play attempts with staggered timing
+            setTimeout(() => video.play().catch(() => {
+                // If first attempt fails, try again with different techniques
+                video.load();
+                video.play().catch(() => {
+                    // Last resort: force play on next event loop
+                    setTimeout(() => {
+                        video.load();
+                        video.play().catch(e => console.error("Final video play error:", e));
+                    }, 100);
+                });
+            }), 50);
+        }
+    };
+    
     document.addEventListener('DOMContentLoaded', function() {
         // Get audio elements
         const bgAudio = document.getElementById('bgAudio');
@@ -1819,21 +1891,43 @@
                 });
             });
             
-            // Add video background handling from working backup
+            // Enhanced video background handling with iOS fixes
             const video = document.querySelector('.video-background video');
             if (video) {
-                // Set proper attributes for mobile playback
+                // Advanced iOS video settings
+                video.style.visibility = "visible";
+                video.style.opacity = "1";
+                video.style.zIndex = "0";
+                video.playsInline = true;
+                video.muted = true;
+                video.defaultMuted = true;
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
                 video.setAttribute('muted', true);
                 video.setAttribute('autoplay', true);
                 video.setAttribute('loop', true);
                 
-                // Try to play the video - NO FALLBACKS
-                video.play().catch(function(error) {
-                    console.error('Video play error:', error);
-                    // NO FALLBACKS - just log error
-                });
+                // iOS Safari trick - create empty buffer to unlock media
+                try {
+                    const unlockAudio = document.createElement('audio');
+                    unlockAudio.setAttribute('autoplay', true);
+                    unlockAudio.setAttribute('muted', true);
+                    unlockAudio.setAttribute('playsinline', true);
+                    unlockAudio.setAttribute('webkit-playsinline', true);
+                    unlockAudio.src = "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjIwLjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABOgCZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZ//sQZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=";
+                    unlockAudio.load();
+                    unlockAudio.play().then(() => {
+                        // After unlock, force video play
+                        video.load();
+                        setTimeout(() => video.play(), 10);
+                    }).catch(e => {
+                        console.log("Audio unlock failed, trying video directly");
+                        video.load(); 
+                        video.play();
+                    });
+                } catch (e) {
+                    console.error("iOS unlock error:", e);
+                }
             }
         }
     });
