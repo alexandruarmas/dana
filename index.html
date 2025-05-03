@@ -9,6 +9,10 @@
     <title>Dana Anniella - Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600&family=Playfair+Display:wght@400;500;600&display=swap">
+    
+    <!-- Preload video to prevent rendering issues -->
+    <link rel="preload" href="video/MOBILE-Celestial-Cat.mp4" as="video" type="video/mp4">
+    
     <style>
         /* Add Fortnite Burbank font */
         @font-face {
@@ -753,7 +757,7 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-        
+
         .alex-section i {
             font-size: 28px;
             color: white;
@@ -859,7 +863,7 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-2px); } /* Further reduced to -2px */
         }
-        
+
         /* Override the default icon bounce for the Contact Me button */
         .div8:hover .contact-me i, .div8.touch-hover .contact-me i {
             animation: contactIconBounce 0.6s ease infinite !important;
@@ -943,12 +947,12 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-        
+
         .create-page-button i {
             font-size: 0; /* Hide the icon */
             display: none;
         }
-        
+
         .create-page-button strong {
             font-size: 24px;
             margin: 0 0 5px;
@@ -1614,25 +1618,27 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 0; /* HIGHER PRIORITY */
+            z-index: 0;
             overflow: hidden;
             pointer-events: none;
-            transform: none; /* Remove any transforms */
+            transform: none !important; /* Force no transform */
             opacity: 1;
             visibility: visible;
+            will-change: auto; /* Reduce GPU memory pressure */
         }
-        
+
         .video-background video {
             position: absolute;
             width: 100%;
             height: 100%;
             top: 0;
             left: 0;
-            transform: none; /* Remove transform that might cause zoom */
+            transform: none !important; /* Force no transform */
             object-fit: cover;
             opacity: 1;
             visibility: visible;
             display: block;
+            will-change: auto; /* Reduce GPU memory pressure */
         }
 
         /* iOS-specific video hack to ensure the video displays properly */
@@ -1645,23 +1651,15 @@
             .video-background video {
                 position: fixed !important; /* Force proper positioning on iOS */
                 z-index: 0 !important;
-                top: 50% !important;
-                left: 50% !important;
+                top: 0 !important;
+                left: 0 !important;
                 min-width: 100% !important;
                 min-height: 100% !important;
-                width: auto !important;
-                height: auto !important;
-                transform: translateX(-50%) translateY(-50%) !important;
-                -webkit-transform: translateX(-50%) translateY(-50%) !important;
+                width: 100% !important;
+                height: 100% !important;
+                transform: none !important; /* Simplified transform */
                 object-fit: cover !important;
-            }
-            
-            /* Force proper z-index stacking context */
-            html, body {
-                transform: translate3d(0, 0, 0);
-                -webkit-transform: translate3d(0, 0, 0);
-                perspective: 1000;
-                -webkit-perspective: 1000;
+                transform-style: flat !important; /* Reduce GPU memory usage */
             }
         }
     </style>
@@ -1669,18 +1667,18 @@
 <body>
     <!-- VIDEO ONLY - NO FALLBACKS WHATSOEVER -->
     <div class="video-background">
-        <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;">
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;" id="bgVideo">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
-    </video>
+        </video>
     </div>
-    
+
     <div class="overlay"></div>
     
     <!-- Background audio -->
     <audio id="bgAudio" autoplay playsinline webkit-playsinline>
         <source src="audio/audio.mp3" type="audio/mpeg">
     </audio>
-
+    
     <div class="container">
         <div class="parent">
             <!-- Profile -->
@@ -1772,9 +1770,9 @@
                     <span class="link-description">Full-Stack</span>
                     <span class="link-description">UI/UX Developer</span>
                 </a>
+            </div>
         </div>
-    </div>
-
+        
         <!-- Audio controls positioned at the bottom -->
         <div class="footer-audio-controls">
             <div class="audio-control-container">
@@ -1785,37 +1783,46 @@
         </div>
     </div>
 </body>
-    <script>
+<script>
     // Advanced iOS video autoplay hack - no tapping required
     window.onload = function() {
-            const video = document.querySelector('.video-background video');
+        const video = document.querySelector('#bgVideo');
         if (video) {
-            // Force iOS to play video without user interaction
+            // Simplified video setup with better error handling
             video.playsInline = true;
             video.muted = true;
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
+            video.setAttribute('playsinline', '');
+            video.setAttribute('webkit-playsinline', '');
             
-            // Create silent audio context to unlock media autoplay
-            let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            let silentAudio = audioContext.createBuffer(1, 1, 22050);
-            let silentSource = audioContext.createBufferSource();
-            silentSource.buffer = silentAudio;
-            silentSource.connect(audioContext.destination);
-            silentSource.start();
+            // Prevent memory leaks
+            video.addEventListener('error', function(e) {
+                console.error('Video error:', e);
+                // If error occurs, try reload
+                setTimeout(() => {
+                    video.load();
+                    video.play().catch(err => console.error("Play error:", err));
+                }, 1000);
+            });
             
-            // Multiple play attempts with staggered timing
-            setTimeout(() => video.play().catch(() => {
-                // If first attempt fails, try again with different techniques
+            // Create a clean function to handle play attempts
+            const attemptPlay = () => {
                 video.load();
-                video.play().catch(() => {
-                    // Last resort: force play on next event loop
-                    setTimeout(() => {
-                        video.load();
-                        video.play().catch(e => console.error("Final video play error:", e));
-                    }, 100);
+                video.play().catch(e => {
+                    console.warn("Video play failed, retrying in 300ms");
+                    setTimeout(attemptPlay, 300);
                 });
-            }), 50);
+            };
+            
+            // Start playback with a small delay
+            setTimeout(attemptPlay, 100);
+            
+            // Monitor for playback stopping
+            setInterval(() => {
+                if (video.paused) {
+                    console.log("Video paused unexpectedly, restarting");
+                    video.play().catch(e => console.warn("Playback restart failed"));
+                }
+            }, 5000);
         }
     };
     
@@ -1826,31 +1833,31 @@
         const audioIcon = audioToggle.querySelector('i');
         
         // Set volume to 70%
-            bgAudio.volume = 0.7;
-            
+        bgAudio.volume = 0.7;
+        
         // Function to update the UI based on audio state
         function updateAudioUI(isPlaying) {
             if (isPlaying) {
                 audioIcon.className = 'fas fa-volume-up audio-icon-playing';
-                } else {
-                    audioIcon.className = 'fas fa-volume-mute';
-                }
+            } else {
+                audioIcon.className = 'fas fa-volume-mute';
+            }
         }
         
         // Audio has ended - update UI
         bgAudio.addEventListener('ended', function() {
             updateAudioUI(false);
-            });
-            
+        });
+        
         // Handle autoplay
-            const playPromise = bgAudio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    // Autoplay started successfully
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                // Autoplay started successfully
                 updateAudioUI(true);
-                }).catch(error => {
+            }).catch(error => {
                 // Autoplay was prevented (common on mobile)
-                    console.log('Autoplay prevented:', error);
+                console.log('Autoplay prevented:', error);
                 updateAudioUI(false);
             });
         }
@@ -1890,47 +1897,86 @@
                     element.classList.add('touch-hover');
                 });
             });
-
+            
             // Enhanced video background handling with iOS fixes
-            const video = document.querySelector('.video-background video');
+            const video = document.querySelector('#bgVideo');
             if (video) {
-                // Advanced iOS video settings
+                // Advanced iOS video settings - SIMPLIFIED
                 video.style.visibility = "visible";
                 video.style.opacity = "1";
-                video.style.zIndex = "0";
                 video.playsInline = true;
                 video.muted = true;
                 video.defaultMuted = true;
+                
+                // Reduce resource usage
                 video.setAttribute('playsinline', '');
                 video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('muted', true);
-                video.setAttribute('autoplay', true);
-                video.setAttribute('loop', true);
+                video.setAttribute('muted', 'muted');
+                video.setAttribute('autoplay', '');
+                video.setAttribute('loop', '');
                 
-                // iOS Safari trick - create empty buffer to unlock media
+                // Attempt play directly
                 try {
-                    const unlockAudio = document.createElement('audio');
-                    unlockAudio.setAttribute('autoplay', true);
-                    unlockAudio.setAttribute('muted', true);
-                    unlockAudio.setAttribute('playsinline', true);
-                    unlockAudio.setAttribute('webkit-playsinline', true);
-                    unlockAudio.src = "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjIwLjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAABOgCZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZ//sQZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=";
-                    unlockAudio.load();
-                    unlockAudio.play().then(() => {
-                        // After unlock, force video play
-                        video.load();
-                        setTimeout(() => video.play(), 10);
-                    }).catch(e => {
-                        console.log("Audio unlock failed, trying video directly");
-                        video.load(); 
-                        video.play();
+                    video.load();
+                    video.play().catch(e => {
+                        console.warn("Initial play failed:", e);
+                        // Try one more time
+                        setTimeout(() => video.play(), 500);
                     });
                 } catch (e) {
-                    console.error("iOS unlock error:", e);
+                    console.error("Video playback error:", e);
                 }
             }
-            }
-        });
-    </script>
+        }
+    });
+
+    // Add video reset mechanism to prevent black screen after long viewing
+    let lastVideoReset = Date.now();
+    const VIDEO_RESET_INTERVAL = 300000; // Reset video every 5 minutes to prevent black screen
+
+    function checkVideoHealth() {
+        const video = document.querySelector('#bgVideo');
+        if (!video) return;
+        
+        const now = Date.now();
+        if (now - lastVideoReset > VIDEO_RESET_INTERVAL) {
+            console.log("Performing scheduled video reset to prevent black screen");
+            
+            // Create a new video element
+            const newVideo = document.createElement('video');
+            newVideo.id = 'bgVideo';
+            newVideo.autoplay = true;
+            newVideo.muted = true;
+            newVideo.loop = true;
+            newVideo.playsInline = true;
+            newVideo.setAttribute('playsinline', '');
+            newVideo.setAttribute('webkit-playsinline', '');
+            newVideo.style.opacity = '1';
+            newVideo.style.visibility = 'visible';
+            
+            // Create source element
+            const source = document.createElement('source');
+            source.src = 'video/MOBILE-Celestial-Cat.mp4';
+            source.type = 'video/mp4';
+            
+            // Add source to video
+            newVideo.appendChild(source);
+            
+            // Replace old video with new one
+            const parent = video.parentNode;
+            parent.replaceChild(newVideo, video);
+            
+            // Play the new video
+            newVideo.load();
+            newVideo.play().catch(e => console.warn("Video reset play error:", e));
+            
+            // Update reset timestamp
+            lastVideoReset = now;
+        }
+    }
+
+    // Check video health every minute
+    setInterval(checkVideoHealth, 60000);
+</script>
 </html>
     

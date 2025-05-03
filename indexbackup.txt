@@ -753,7 +753,7 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-
+        
         .alex-section i {
             font-size: 28px;
             color: white;
@@ -859,7 +859,7 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-2px); } /* Further reduced to -2px */
         }
-
+        
         /* Override the default icon bounce for the Contact Me button */
         .div8:hover .contact-me i, .div8.touch-hover .contact-me i {
             animation: contactIconBounce 0.6s ease infinite !important;
@@ -943,12 +943,12 @@
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
             transition: all 0.3s ease;
         }
-
+        
         .create-page-button i {
             font-size: 0; /* Hide the icon */
             display: none;
         }
-
+        
         .create-page-button strong {
             font-size: 24px;
             margin: 0 0 5px;
@@ -1671,16 +1671,16 @@
     <div class="video-background">
         <video autoplay muted loop playsinline webkit-playsinline preload="auto" style="opacity: 1; visibility: visible;">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
-        </video>
+    </video>
     </div>
-
+    
     <div class="overlay"></div>
     
     <!-- Background audio -->
     <audio id="bgAudio" autoplay playsinline webkit-playsinline>
         <source src="audio/audio.mp3" type="audio/mpeg">
     </audio>
-    
+
     <div class="container">
         <div class="parent">
             <!-- Profile -->
@@ -1772,9 +1772,9 @@
                     <span class="link-description">Full-Stack</span>
                     <span class="link-description">UI/UX Developer</span>
                 </a>
-            </div>
         </div>
-        
+    </div>
+
         <!-- Audio controls positioned at the bottom -->
         <div class="footer-audio-controls">
             <div class="audio-control-container">
@@ -1785,16 +1785,16 @@
         </div>
     </div>
 </body>
-<script>
+    <script>
     // Advanced iOS video autoplay hack - no tapping required
     window.onload = function() {
-        const video = document.querySelector('.video-background video');
+            const video = document.querySelector('.video-background video');
         if (video) {
             // Force iOS to play video without user interaction
             video.playsInline = true;
             video.muted = true;
-            video.setAttribute('playsinline', '');
-            video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
             
             // Create silent audio context to unlock media autoplay
             let audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1826,31 +1826,31 @@
         const audioIcon = audioToggle.querySelector('i');
         
         // Set volume to 70%
-        bgAudio.volume = 0.7;
-        
+            bgAudio.volume = 0.7;
+            
         // Function to update the UI based on audio state
         function updateAudioUI(isPlaying) {
             if (isPlaying) {
                 audioIcon.className = 'fas fa-volume-up audio-icon-playing';
-            } else {
-                audioIcon.className = 'fas fa-volume-mute';
-            }
+                } else {
+                    audioIcon.className = 'fas fa-volume-mute';
+                }
         }
         
         // Audio has ended - update UI
         bgAudio.addEventListener('ended', function() {
             updateAudioUI(false);
-        });
-        
+            });
+            
         // Handle autoplay
-        const playPromise = bgAudio.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // Autoplay started successfully
+            const playPromise = bgAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Autoplay started successfully
                 updateAudioUI(true);
-            }).catch(error => {
+                }).catch(error => {
                 // Autoplay was prevented (common on mobile)
-                console.log('Autoplay prevented:', error);
+                    console.log('Autoplay prevented:', error);
                 updateAudioUI(false);
             });
         }
@@ -1890,7 +1890,7 @@
                     element.classList.add('touch-hover');
                 });
             });
-            
+
             // Enhanced video background handling with iOS fixes
             const video = document.querySelector('.video-background video');
             if (video) {
@@ -1929,8 +1929,8 @@
                     console.error("iOS unlock error:", e);
                 }
             }
-        }
-    });
-</script>
+            }
+        });
+    </script>
 </html>
     
