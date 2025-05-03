@@ -214,6 +214,7 @@
             z-index: -1000;
             overflow: hidden;
             pointer-events: none;
+            transform: none; /* Remove any transforms */
         }
         
         .video-background video {
@@ -222,10 +223,11 @@
             height: 100%;
             top: 0;
             left: 0;
+            transform: none; /* Remove transform that might cause zoom */
             object-fit: cover;
         }
         
-        /* Enhanced background gradient - reliable across all devices */
+        /* Japanese-inspired background gradient - kept as fallback */
         .bg-gradient {
             position: fixed;
             top: 0;
@@ -236,9 +238,11 @@
             height: 100vh;
             background: linear-gradient(215deg, #0f0a1e 0%, #1c0522 40%, #3b0b40 70%, #5a1060 100%);
             background-size: 300% 300%;
-            z-index: -1000;
+            z-index: -1001;
             animation: bgShift 30s ease infinite alternate;
         }
+        
+        /* This is now handled by the Japanese-inspired gradient above */
         
         @keyframes bgShift {
             0% { background-position: 0% 0%; }
@@ -1639,12 +1643,12 @@
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+    <div class="bg-gradient" style="opacity: 0;"></div>
     
-    <!-- Video Background -->
+    <!-- Video Background (replacing sakura) -->
     <div class="video-background">
         <video autoplay muted loop playsinline>
-            <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
+        <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
     </div>
     
@@ -1832,7 +1836,23 @@
                 });
             });
             
-            // No video background handling needed - using reliable gradient background
+            // Video background handling from working backup
+            const video = document.querySelector('.video-background video');
+            if (video) {
+                // Set proper attributes for mobile playback
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('muted', true);
+                video.setAttribute('autoplay', true);
+                video.setAttribute('loop', true);
+                
+                // Try to play the video
+                video.play().catch(function(error) {
+                    console.error('Video play error:', error);
+                    // Show gradient background as fallback
+                    document.querySelector('.bg-gradient').style.opacity = '1';
+                });
+            }
             
             // Override any touchstart events that might remove the touch-hover class
             document.addEventListener('touchstart', function(e) {
