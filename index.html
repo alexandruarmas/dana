@@ -187,7 +187,7 @@
         
         .container {
             position: relative;
-            z-index: 2;
+            z-index: 2; /* Higher than video (0) */
             overflow: visible;
             width: 100%;
             max-width: 100%;
@@ -195,6 +195,8 @@
             box-sizing: border-box;
             margin: 0 auto;
         }
+        
+        /* VIDEO ONLY - direct styling in the video element */
         
         .overlay {
             position: fixed;
@@ -206,11 +208,6 @@
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.2);
             z-index: 1; /* Higher than video (0) */
-        }
-        
-        .container {
-            position: relative;
-            z-index: 2; /* Higher than overlay (1) and video (0) */
         }
         
         /* VIDEO ONLY - direct styling in the video element */
@@ -1646,8 +1643,8 @@
         </video>
     </div>
 
-    <div class="overlay"></div>
-    
+    <!-- No overlay -->
+
     <!-- Background audio -->
     <audio id="bgAudio" autoplay playsinline webkit-playsinline>
         <source src="audio/audio.mp3" type="audio/mpeg">
