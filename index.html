@@ -171,7 +171,6 @@
             margin: 0;
             padding: 0;
             background-color: #000;
-            background: linear-gradient(180deg, #0f0a1e 0%, #1c0522 100%);
             overflow-x: hidden;
             overflow-y: auto;
             width: 100%;
@@ -179,6 +178,7 @@
             color: #333;
             line-height: 1.6;
             padding-bottom: 50px;
+            position: relative;
         }
         
         .container {
@@ -201,55 +201,17 @@
             width: 100vw;
             height: 100vh;
             background-color: rgba(0, 0, 0, 0.2);
-            z-index: -999;
+            z-index: 1;
         }
         
-        /* Video Background - HIGHEST PRIORITY */
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -999; /* HIGHER PRIORITY than gradient */
-            overflow: hidden;
-            pointer-events: none;
-            transform: none; /* Remove any transforms */
+        .container {
+            position: relative;
+            z-index: 2;
         }
         
-        .video-background video {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform: none; /* Remove transform that might cause zoom */
-            object-fit: cover;
-            z-index: -998; /* HIGHEST z-index of all backgrounds */
-        }
+        /* VIDEO ONLY - direct styling in the video element */
         
-        /* Japanese-inspired background gradient - kept as fallback */
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(215deg, #0f0a1e 0%, #1c0522 40%, #3b0b40 70%, #5a1060 100%);
-            background-size: 300% 300%;
-            z-index: -1001; /* IMPORTANT: Lower than video (-1000) */
-            animation: bgShift 30s ease infinite alternate;
-        }
-        
-        @keyframes bgShift {
-            0% { background-position: 0% 0%; }
-            25% { background-position: 50% 100%; }
-            50% { background-position: 100% 50%; }
-            75% { background-position: 50% 0%; }
-            100% { background-position: 0% 100%; }
-        }
+        /* No background gradient - video only */
         
         .parent {
             display: grid;
@@ -260,7 +222,6 @@
             box-sizing: border-box;
             padding: 10px;
             margin: 0 auto;
-            transform: none; /* Remove transform to prevent zooming */
         }
             
         /* Common card styles - full gradient backgrounds */
@@ -1644,14 +1605,10 @@
     </style>
 </head>
 <body>
-    <div class="bg-gradient" style="opacity: 0;"></div>
-    
-    <!-- Video Background (forced priority) -->
-    <div class="video-background">
-        <video autoplay muted loop playsinline preload="auto" id="bgVideo" style="z-index: -999;">
+    <!-- VIDEO ONLY - ABSOLUTE PRIORITY -->
+    <video id="videoBG" autoplay muted loop playsinline webkit-playsinline style="position: fixed; top: 0; left: 0; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -1; background: #000;">
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
-        </video>
-    </div>
+    </video>
     
     <div class="overlay"></div>
     
@@ -1766,126 +1723,95 @@
 </body>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get audio elements
-        const bgAudio = document.getElementById('bgAudio');
-        const audioToggle = document.getElementById('audioToggle');
-        const audioIcon = audioToggle.querySelector('i');
+        // Force video to play on iOS
+        const video = document.getElementById('videoBG');
         
-        // Set volume to 70%
+        function playVideo() {
+            video.play().catch(function(e) {
+                console.error("Video play failed:", e);
+                // Try again with user interaction
+                document.body.addEventListener('touchstart', function() {
+                    video.play();
+                }, {once: true});
+            });
+        }
+        
+        // Try to play immediately
+        playVideo();
+        
+        // Also try to play on page visibility change (when user returns to the tab)
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                playVideo();
+            }
+        });
+        
+        // Try to play on any user interaction
+        ['touchstart', 'click', 'keydown'].forEach(function(evt) {
+            document.addEventListener(evt, function() {
+                playVideo();
+            }, {once: true});
+        });
+        
+        // Audio handling
+        const bgAudio = document.getElementById('bgAudio');
         bgAudio.volume = 0.7;
         
-        // Function to update the UI based on audio state
-        function updateAudioUI(isPlaying) {
-            if (isPlaying) {
-                audioIcon.className = 'fas fa-volume-up audio-icon-playing';
-            } else {
-                audioIcon.className = 'fas fa-volume-mute';
-            }
+        // EXTREME VIDEO AUTOPLAY FOR iOS
+        const videoElem = document.getElementById('videoBG');
+        
+        function playVideo() {
+            // First reset everything
+            videoElem.pause();
+            videoElem.currentTime = 0;
+            videoElem.load();
+            
+            // Make sure attributes are set
+            videoElem.setAttribute('playsinline', '');
+            videoElem.setAttribute('webkit-playsinline', '');
+            videoElem.setAttribute('muted', '');
+            videoElem.setAttribute('autoplay', '');
+            videoElem.setAttribute('loop', '');
+            
+            // These direct property settings sometimes work better than attributes
+            videoElem.muted = true;
+            videoElem.autoplay = true;
+            videoElem.loop = true;
+            videoElem.playsInline = true;
+            
+            // Sometimes iOS needs a mute toggle trick
+            videoElem.muted = false;
+            videoElem.muted = true;
+            
+            // Force play with timeout as some devices need a moment
+            setTimeout(function() {
+                videoElem.play().catch(function(e) {
+                    console.error("Video still failed to play:", e);
+                });
+            }, 100);
         }
         
-        // Audio has ended - update UI
-        bgAudio.addEventListener('ended', function() {
-            updateAudioUI(false);
-        });
+        // Initial play attempt
+        playVideo();
         
-        // Handle autoplay
-        const playPromise = bgAudio.play();
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                // Autoplay started successfully
-                updateAudioUI(true);
-            }).catch(error => {
-                // Autoplay was prevented (common on mobile)
-                console.log('Autoplay prevented:', error);
-                updateAudioUI(false);
-            });
-        }
-        
-        // Toggle audio on button click
-        audioToggle.addEventListener('click', function() {
-            if (bgAudio.paused) {
-                bgAudio.play();
-                updateAudioUI(true);
-            } else {
-                bgAudio.pause();
-                updateAudioUI(false);
+        // Play when document becomes visible
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                playVideo();
             }
         });
         
-        // Add touch-hover effect for mobile
-        audioToggle.addEventListener('touchstart', function() {
-            audioToggle.parentNode.classList.add('touch-hover');
+        // Play on ANY user interaction - using capture to ensure it runs first
+        ['touchstart', 'click', 'touchend', 'scroll'].forEach(function(evt) {
+            document.addEventListener(evt, function() {
+                playVideo();
+            }, {once: true, capture: true});
         });
         
-        audioToggle.addEventListener('touchend', function() {
-            audioToggle.parentNode.classList.remove('touch-hover');
-        });
-        
-        // Apply effects by default on mobile devices - ALWAYS KEEP ACTIVE
-        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            // Get all card elements
-            const cards = document.querySelectorAll('.div3, .div4, .div5, .div6, .div7, .div8, .div10, .div11');
-            
-            // Apply touch-hover class to all cards by default on mobile
-            cards.forEach(function(card) {
-                card.classList.add('touch-hover');
-                
-                // Find any service-specific elements inside the card
-                const specialElements = card.querySelectorAll('.instagram, .instagram-art, .tiktok, .youtube, .soundcloud, .twitter, .shop, .featured-item, .contact-me, .create-page-button, .alex-section');
-                specialElements.forEach(function(element) {
-                    element.classList.add('touch-hover');
-                });
-            });
-            
-            // ENHANCED Video background handling - fixed for iOS
-            const video = document.querySelector('.video-background video');
-            if (video) {
-                // Force all video attributes
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('muted', true);
-                video.setAttribute('autoplay', true);
-                video.setAttribute('loop', true);
-                
-                // Initialize video with explicit load
-                video.load();
-
-                // Try with document interaction
-                document.addEventListener('touchstart', function videoStart() {
-                    video.play();
-                    document.removeEventListener('touchstart', videoStart);
-                }, {once: true});
-                
-                // Also try direct play
-                video.play().catch(function(error) {
-                    console.error('Video play error:', error);
-                    // Show gradient background as fallback only if video fails
-                    document.querySelector('.bg-gradient').style.opacity = '1';
-                });
-                
-                // Monitor video status
-                video.addEventListener('playing', function() {
-                    console.log('Video is now playing');
-                    document.querySelector('.bg-gradient').style.opacity = '0';
-                });
-            }
-            
-            // Override any touchstart events that might remove the touch-hover class
-            document.addEventListener('touchstart', function(e) {
-                // Re-apply touch-hover class to all cards
-                setTimeout(() => {
-                    cards.forEach(function(card) {
-                        card.classList.add('touch-hover');
-                        
-                        // Find any service-specific elements inside the card
-                        const specialElements = card.querySelectorAll('.instagram, .instagram-art, .tiktok, .youtube, .soundcloud, .twitter, .shop, .featured-item, .contact-me, .create-page-button, .alex-section');
-                        specialElements.forEach(function(element) {
-                            element.classList.add('touch-hover');
-                        });
-                    });
-                }, 10);
-            });
-        }
+        // Some iOS devices need a direct body touch handler
+        document.body.addEventListener('touchstart', function() {
+            playVideo();
+        }, {once: true});
     });
 </script>
 </html>
