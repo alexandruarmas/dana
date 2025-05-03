@@ -204,7 +204,26 @@
             z-index: -999;
         }
         
-        /* Background styling is handled by .bg-gradient */
+        /* Video Background */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1000;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .video-background video {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            object-fit: cover;
+        }
         
         /* Enhanced background gradient - reliable across all devices */
         .bg-gradient {
@@ -1622,8 +1641,12 @@
 <body>
     <div class="bg-gradient"></div>
     
-    <!-- Gradient Background (more reliable than video) -->
-    <div class="bg-gradient"></div>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
+        </video>
+    </div>
     
     <div class="overlay"></div>
     
