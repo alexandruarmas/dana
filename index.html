@@ -4,19 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="dark">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <!-- iOS specific meta tags -->
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="x-ua-compatible" content="IE=edge">
-    <meta name="theme-color" content="#FFD700">
     
     <title>Dana Anniella - Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600&family=Playfair+Display:wght@400;500;600&display=swap">
-    
-    <!-- Force iPhone to preload and cache the video -->
-    <link rel="preload" href="video/MOBILE-Celestial-Cat.mp4" as="video" type="video/mp4" media="all">
     
     <style>
         /* Add Fortnite Burbank font */
@@ -1645,96 +1636,15 @@
             display: block;
             will-change: auto; /* Reduce GPU memory pressure */
         }
-
-        /* iOS-specific video hack - simplified */
-        @supports (-webkit-touch-callout: none) {
-            .video-background {
-                background-color: #000; /* Black fallback */
-                z-index: 0 !important; /* Force proper z-index on iOS */
-            }
-            
-            .video-background video {
-                position: fixed !important;
-                z-index: 0 !important;
-                top: 0 !important;
-                left: 0 !important;
-                min-width: 100% !important;
-                min-height: 100% !important;
-                width: 100% !important;
-                height: 100% !important;
-                transform: none !important;
-                object-fit: cover !important;
-                transform-style: flat !important;
-                opacity: 1 !important; /* Return to full opacity */
-            }
-        }
-
-        /* Mobile video fix - add a fallback background color */
-        .video-background {
-            background-color: #FFD700 !important; /* Yellow fallback color if video fails */
-        }
     </style>
 </head>
 <body>
-    <!-- VIDEO FOR ALL DEVICES - WITH iOS FALLBACK -->
+    <!-- Clean up the video element, removing all iOS-specific attributes -->
     <div class="video-background">
-        <!-- Primary video element with multiple sources for better compatibility -->
-        <video id="bgVideo" autoplay muted loop playsinline webkit-playsinline preload="auto" 
-               style="opacity: 1; visibility: visible;" 
-               x5-video-player-type="h5" 
-               x5-video-player-fullscreen="true" 
-               x5-playsinline="true"
-               poster="video/MOBILE-Celestial-Cat.mp4">
+        <video id="bgVideo" autoplay muted loop playsinline preload="auto" style="opacity: 1; visibility: visible;">
             <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
         </video>
-        
-        <!-- iOS-specific fallback with image - will be shown if video fails -->
-        <div id="ios-fallback" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #FFD700; z-index: 0; background-image: url('images/icon.png'); background-position: center; background-repeat: no-repeat; background-size: contain;"></div>
     </div>
-
-    <!-- Add this script right after the video element -->
-    <script>
-    // Immediate iOS detection and handling
-    (function() {
-        // Check if this is an iOS device
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        
-        if (isIOS) {
-            console.log("iOS device detected, applying special handling");
-            
-            // Set fallback immediately for faster display
-            var fallback = document.getElementById('ios-fallback');
-            if (fallback) {
-                fallback.style.display = "block";
-            }
-            
-            // Try to play video
-            var video = document.getElementById('bgVideo');
-            if (video) {
-                // Hide video initially on iOS
-                video.style.opacity = "0";
-                
-                // Force attempt to play
-                video.play()
-                .then(function() {
-                    console.log("iOS video playing successfully");
-                    // Video is playing, hide the fallback and show video
-                    video.style.opacity = "1";
-                    if (fallback) fallback.style.display = "none";
-                })
-                .catch(function(error) {
-                    console.log("iOS video play failed:", error);
-                    // Keep the fallback showing
-                    video.style.display = "none";
-                    if (fallback) fallback.style.display = "block";
-                });
-            }
-            
-            // Force body background color to match fallback
-            document.body.style.backgroundColor = "#FFD700";
-        }
-    })();
-    </script>
 
     <div class="overlay"></div>
     
@@ -1937,7 +1847,7 @@
             }
         });
         
-        // Add touch-hover effect for mobile
+        // Basic touch effects
         audioToggle.addEventListener('touchstart', function() {
             audioToggle.parentNode.classList.add('touch-hover');
         });
@@ -1946,7 +1856,7 @@
             audioToggle.parentNode.classList.remove('touch-hover');
         });
         
-        // Apply effects by default on mobile devices - ALWAYS KEEP ACTIVE
+        // Apply effects by default on mobile devices
         if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
             // Get all card elements
             const cards = document.querySelectorAll('.div3, .div4, .div5, .div6, .div7, .div8, .div10, .div11');
@@ -1961,191 +1871,12 @@
                     element.classList.add('touch-hover');
                 });
             });
-            
-            // Enhanced video background handling with iOS fixes
-            const video = document.querySelector('#bgVideo');
-            if (video) {
-                // Advanced iOS video settings - SIMPLIFIED
-                video.style.visibility = "visible";
-                video.style.opacity = "1";
-                video.playsInline = true;
-                video.muted = true;
-                video.defaultMuted = true;
-                
-                // Reduce resource usage
-                video.setAttribute('playsinline', '');
-                video.setAttribute('webkit-playsinline', '');
-                video.setAttribute('muted', 'muted');
-                video.setAttribute('autoplay', '');
-                video.setAttribute('loop', '');
-                
-                // Attempt play directly
-                try {
-                    video.load();
-                    video.play().catch(e => {
-                        console.warn("Initial play failed:", e);
-                        // Try one more time
-                        setTimeout(() => video.play(), 500);
-                    });
-                } catch (e) {
-                    console.error("Video playback error:", e);
-                }
-            }
         }
-    });
-
-    // Add video reset mechanism to prevent black screen after long viewing
-    let lastVideoReset = Date.now();
-    const VIDEO_RESET_INTERVAL = 300000; // Reset video every 5 minutes to prevent black screen
-
-    function checkVideoHealth() {
-        const video = document.querySelector('#bgVideo');
-        if (!video) return;
         
-        const now = Date.now();
-        if (now - lastVideoReset > VIDEO_RESET_INTERVAL) {
-            console.log("Performing scheduled video reset to prevent black screen");
-            
-            // Create a new video element
-            const newVideo = document.createElement('video');
-            newVideo.id = 'bgVideo';
-            newVideo.autoplay = true;
-            newVideo.muted = true;
-            newVideo.loop = true;
-            newVideo.playsInline = true;
-            newVideo.setAttribute('playsinline', '');
-            newVideo.setAttribute('webkit-playsinline', '');
-            newVideo.style.opacity = '1';
-            newVideo.style.visibility = 'visible';
-            
-            // Create source element
-            const source = document.createElement('source');
-            source.src = 'video/MOBILE-Celestial-Cat.mp4';
-            source.type = 'video/mp4';
-            
-            // Add source to video
-            newVideo.appendChild(source);
-            
-            // Replace old video with new one
-            const parent = video.parentNode;
-            parent.replaceChild(newVideo, video);
-            
-            // Play the new video
-            newVideo.load();
-            newVideo.play().catch(e => console.warn("Video reset play error:", e));
-            
-            // Update reset timestamp
-            lastVideoReset = now;
-        }
-    }
-
-    // Check video health every minute
-    setInterval(checkVideoHealth, 60000);
-
-    // After unlock, force video play
-    try {
-        video.load();
-        video.play().catch(e => {
-            console.warn("Initial play failed:", e);
-            // Try one more time
-            setTimeout(() => video.play(), 500);
-        });
-    } catch (e) {
-        console.error("Video playback error:", e);
-    }
-
-    // Remove unwanted overlay code
-    // Replacing the old cosmic cat fallback code with empty code
-    const applyCosmicCatFallback = () => {
-        // Empty function - no overlay will be applied
-    };
-
-    // Remove DOM content loaded event listener that was adding overlays
-    // And remove the setTimeout call for the overlay
-
-    // Simplified video playback - ensure consistency across platforms
-    const ensureVideoPlayback = () => {
-        const video = document.querySelector('#bgVideo');
-        if (!video) return;
-        
-        // Make sure video attributes are set correctly
-        video.muted = true;
-        video.playsInline = true;
-        video.autoplay = true;
-        video.loop = true;
-        
-        // Set attributes for iOS
-        video.setAttribute('playsinline', '');
-        video.setAttribute('webkit-playsinline', '');
-        video.setAttribute('muted', '');
-        video.setAttribute('autoplay', '');
-        video.setAttribute('loop', '');
-        
-        // Force play
-        video.play().catch(e => {
-            console.warn("Video play failed, retrying:", e);
-            // Try again with a delay
-            setTimeout(() => {
-                video.load();
-                video.play().catch(err => console.error("Final play attempt failed:", err));
-            }, 1000);
-        });
-    };
-
-    // Call after a short delay to ensure DOM is ready
-    setTimeout(ensureVideoPlayback, 500);
-    // Check again after 2 seconds
-    setTimeout(ensureVideoPlayback, 2000);
-
-    // Mobile video fix - more aggressive approach
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get the video element
-        const video = document.querySelector('#bgVideo');
-        if (!video) return;
-        
-        // Function to force play video with multiple attempts
-        const forcePlayVideo = function() {
-            console.log("Attempting to force play video");
-            
-            // Make sure video has correct properties
-            video.muted = true;
-            video.playsInline = true;
-            video.setAttribute('playsinline', '');
-            video.setAttribute('webkit-playsinline', '');
-            video.setAttribute('muted', '');
-            
-            // Force reload and play
-            video.load();
-            
-            // Play with retry mechanism
-            const playAttempt = video.play();
-            if (playAttempt) {
-                playAttempt.catch(function(error) {
-                    console.log('Play attempt failed:', error);
-                    // Try again after 1 second
-                    setTimeout(forcePlayVideo, 1000);
-                });
-            }
-        };
-        
-        // Mobile-specific handling
-        if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            console.log("Mobile device detected - applying special video handling");
-            
-            // Try playing immediately
-            forcePlayVideo();
-            
-            // Try again after page is fully loaded
-            window.addEventListener('load', forcePlayVideo);
-            
-            // And again after a short delay
-            setTimeout(forcePlayVideo, 500);
-            setTimeout(forcePlayVideo, 2000);
-            
-            // Touch event to trigger video (for iOS)
-            document.body.addEventListener('touchstart', function() {
-                forcePlayVideo();
-            }, {once: true});
+        // Simple video play handling
+        const video = document.getElementById('bgVideo');
+        if (video) {
+            video.play().catch(e => console.log("Video play error:", e));
         }
     });
 </script>
