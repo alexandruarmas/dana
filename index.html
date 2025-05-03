@@ -1639,7 +1639,7 @@
     <div class="video-background">
         <video autoplay muted loop playsinline>
         <source src="video/MOBILE-Celestial-Cat.mp4" type="video/mp4">
-    </video>
+        </video>
     </div>
     
     <div class="overlay"></div>
@@ -1809,6 +1809,23 @@
         audioToggle.addEventListener('touchend', function() {
             audioToggle.parentNode.classList.remove('touch-hover');
         });
+        
+        // Apply effects by default on mobile devices
+        if (/Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            // Get all card elements
+            const cards = document.querySelectorAll('.div3, .div4, .div5, .div6, .div7, .div8, .div10, .div11');
+            
+            // Apply touch-hover class to all cards by default on mobile
+            cards.forEach(function(card) {
+                card.classList.add('touch-hover');
+                
+                // Add touch start/end listeners for toggling
+                card.addEventListener('touchstart', function() {
+                    // Keep the effect applied when touched
+                    this.classList.add('touch-hover');
+                });
+            });
+        }
     });
 </script>
 </html>
