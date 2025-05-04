@@ -1343,8 +1343,8 @@
         
         /* Profile icon styling - improved responsiveness */
         .profile-icon {
-            width: 240px; /* Increased size for better visibility */
-            max-width: 70%; /* Increased max-width for larger appearance on mobile */
+            width: 204px; /* Reduced by 15% from 240px */
+            max-width: 60%; /* Reduced from 70% */
             height: auto;
             margin: 15px auto 20px;
             display: block;
@@ -1356,8 +1356,8 @@
         /* Make profile icon responsive on different screens */
         @media only screen and (max-width: 480px) {
             .profile-icon {
-                max-width: 85%; /* Increased for better visibility on small screens */
-                min-width: 180px; /* Ensures icon doesn't get too small */
+                max-width: 72%; /* Reduced from 85% */
+                min-width: 153px; /* Reduced from 180px */
                 margin: 10px auto 15px;
             }
         }
@@ -1365,8 +1365,8 @@
         /* Extra small screens */
         @media only screen and (max-width: 320px) {
             .profile-icon {
-                max-width: 90%; /* Further increased for extra small screens */
-                min-width: 160px; /* Minimum size on very small screens */
+                max-width: 77%; /* Reduced from 90% */
+                min-width: 136px; /* Reduced from 160px */
             }
         }
         
@@ -1384,9 +1384,9 @@
 
         /* Add special hover effect to profile div */
         .div13.profile:hover {
-            transform: translateY(-5px) scale(1.03);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform: none; /* Removed animation */
+            cursor: default; /* Changed from pointer to default */
+            transition: none; /* Removed transition */
             z-index: 2;
             box-shadow: none;
         }
@@ -1407,16 +1407,12 @@
         
         /* Add text animation for profile on hover */
         .div13.profile:hover h1 {
-            transform: scale(1.05);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7), 0 0 35px rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
+            transform: none; /* Removed scale effect */
+            text-shadow: none; /* Removed glow effect */
+            transition: none; /* Removed transition */
         }
         
-        .div13.profile:hover .bio {
-            transform: scale(1.05);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.5);
-            transition: all 0.3s ease;
-        }
+        /* Removed hover effect for bio/CONTENT CREATOR text */
 
         /* Keep div10 and div11 exactly the same size */
         .div10, .div11 {
@@ -2173,12 +2169,12 @@
                 <img src="images/icon.png" alt="Daniela Armaș" class="profile-icon" onerror="this.style.display='none'">
                 <h1 style="color: white; font-family: 'Bodoni Moda', 'Playfair Display', serif; letter-spacing: 2px; font-weight: 600; font-size: 42px; position: relative; padding: 10px 0; text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc; animation: danielaTextGlitch 3s infinite alternate;">Daniela Armaș</h1>
                 <div class="bio-container" style="width: 100%; text-align: center; margin: 10px auto 5px; position: relative; max-width: 100%;">
-                    <p class="bio" style="color: #f8f8f8; font-family: 'Burbank', sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 500; position: relative; z-index: 2; margin: 0 auto; font-size: 22px; padding: 8px 10px; text-align: center; width: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.1), rgba(51,51,255,0.1), rgba(255,0,204,0.1), rgba(0,0,0,0.1)); background-size: 300% 100%; animation: bioReveal 3s forwards, gradientMove 8s ease infinite; border-top: 1px solid rgba(255,255,255,0.15); border-bottom: 1px solid rgba(255,255,255,0.15);">
-                        <span style="display: inline-flex; align-items: center; justify-content: center; flex-direction: column;">
-                            <span style="display: block; white-space: nowrap; text-align: center; margin-bottom: 4px; color: yellow; text-shadow: 0 0 8px rgba(255, 255, 0, 0.5); font-weight: 600; font-size: 16px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CONTENT</span>
+                    <p class="bio" style="color: #f8f8f8; font-family: 'Burbank', sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 500; position: relative; z-index: 2; margin: 0 auto; font-size: 22px; padding: 4px 5px; text-align: center; display: inline-block; width: auto; background: linear-gradient(90deg, #0b0b2d, #1a1a5c, #0b0b2d); background-size: 300% 100%; animation: bioReveal 3s forwards, gradientMove 8s ease infinite; border-top: 1px solid rgba(255,255,255,0.15); border-bottom: 1px solid rgba(255,255,255,0.15); border-radius: 4px;">
+                        <span style="display: inline-flex; align-items: center; justify-content: center; flex-direction: column; padding: 0 15px;">
+                            <span style="display: block; white-space: nowrap; text-align: center; margin-bottom: 2px; color: white; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); font-weight: 600; font-size: 20px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CONTENT</span>
                             <span style="display: flex; align-items: center; justify-content: center; white-space: nowrap;">
-                                <span style="color: yellow; text-shadow: 0 0 8px rgba(255, 255, 0, 0.5); font-weight: 600; font-size: 16px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CREATOR</span>
-                                <span class="blinking-cursor" style="display: inline-block; width: 2px; height: 16px; background-color: rgba(255, 255, 0, 0.7); margin-left: 4px; animation: cursorBlink 1.5s infinite; box-shadow: 0 0 5px rgba(255, 255, 0, 0.5);"></span>
+                                <span style="color: white; text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); font-weight: 600; font-size: 20px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CREATOR</span>
+                                <span class="blinking-cursor" style="display: inline-block; width: 2px; height: 20px; background-color: rgba(255, 255, 255, 0.7); margin-left: 4px; animation: cursorBlink 1.5s infinite; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);"></span>
                             </span>
                         </span>
                     </p>
