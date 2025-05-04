@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="color-scheme" content="dark">
     
-    <title>Dana Anniella - Links</title>
+    <title>Daniela Armaș Links</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;600&family=Playfair+Display:wght@400;500;600&display=swap">
     
@@ -664,9 +664,9 @@
         
         /* Alexandru Armas section - with developer theme effect */
         .alex-section {
-            background: linear-gradient(135deg, #4facfe, #00f2fe, #32ccbc, #38ef7d);
+            background: linear-gradient(135deg, #3333ff, #00ffcc, #ff00cc);
             background-size: 300% 300%;
-            animation: developerGradient 10s ease infinite;
+            animation: alexGradient 8s ease infinite;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
@@ -676,17 +676,26 @@
             height: 100%;
             margin: 0;
             padding: 0;
-            box-shadow: 0 6px 15px rgba(0, 102, 255, 0.3);
+            box-shadow: 0 0 15px rgba(51, 51, 255, 0.5), 0 0 30px rgba(0, 255, 204, 0.3);
             text-decoration: none;
             overflow: hidden;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        @keyframes developerGradient {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+        @keyframes alexGradient {
+            0% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 15px rgba(51, 51, 255, 0.5), 0 0 30px rgba(0, 255, 204, 0.3);
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 0 0 20px rgba(255, 0, 204, 0.5), 0 0 40px rgba(51, 51, 255, 0.3);
+            }
+            100% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 15px rgba(51, 51, 255, 0.5), 0 0 30px rgba(0, 255, 204, 0.3);
+            }
         }
 
         .alex-section::before {
@@ -698,13 +707,14 @@
             height: 200%;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.1) 2px,
+                transparent,
                 transparent 2px,
-                transparent 4px
+                rgba(0, 255, 204, 0.1) 2px,
+                rgba(0, 255, 204, 0.1) 4px
             );
             opacity: 0;
             transition: opacity 0.5s ease;
+            mix-blend-mode: overlay;
         }
 
         .alex-section::after {
@@ -716,33 +726,37 @@
             height: 200%;
             background: repeating-linear-gradient(
                 90deg,
-                rgba(255, 255, 255, 0.1),
-                rgba(255, 255, 255, 0.1) 2px,
+                transparent,
                 transparent 2px,
-                transparent 4px
+                rgba(51, 51, 255, 0.1) 2px,
+                rgba(51, 51, 255, 0.1) 4px
             );
             opacity: 0;
             transition: opacity 0.5s ease;
+            mix-blend-mode: overlay;
+            pointer-events: none;
         }
 
         .alex-section:hover::before, .alex-section.touch-hover::before {
             opacity: 1;
-            animation: codeLines 15s linear infinite;
+            animation: alexGrid 15s linear infinite;
         }
 
         .alex-section:hover::after, .alex-section.touch-hover::after {
             opacity: 1;
-            animation: codeLines 15s linear infinite reverse;
+            animation: alexGrid 15s linear infinite reverse;
         }
 
-        @keyframes codeLines {
+        @keyframes alexGrid {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
         .alex-section:hover, .alex-section.touch-hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 204, 0.8), 
+                        0 0 40px rgba(51, 51, 255, 0.5),
+                        0 0 60px rgba(0, 255, 204, 0.3);
         }
 
         .alex-section:hover strong, .alex-section.touch-hover strong {
@@ -760,16 +774,56 @@
             font-size: 22px;
             color: white;
             font-weight: 600;
+            text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 1px;
         }
         
+        .alex-section:hover strong, .alex-section.touch-hover strong {
+            transform: scale(1.05);
+            animation: alexTextGlitch 2s infinite alternate;
+        }
+        
+        @keyframes alexTextGlitch {
+            0%, 100% {
+                text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc;
+                transform: translateX(0);
+            }
+            25% {
+                text-shadow: -1px 0 10px #ff00cc, 1px 0 20px #00ffcc, 0 0 30px #3333ff;
+                transform: translateX(-1px);
+            }
+            75% {
+                text-shadow: 1px 0 10px #00ffcc, -1px 0 20px #3333ff, 0 0 30px #ff00cc;
+                transform: translateX(1px);
+            }
+        }
+
         .alex-section .link-description {
             font-size: 14px;
             color: white;
             margin: 0;
             padding: 0;
             line-height: 1.3;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
         }
         
+        .alex-section:hover .link-description, .alex-section.touch-hover .link-description {
+            animation: alexSubtextPulse 2s infinite alternate;
+        }
+        
+        @keyframes alexSubtextPulse {
+            0% {
+                opacity: 0.8;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 10px #00ffcc, 0 0 15px rgba(255, 255, 255, 0.9);
+            }
+        }
+
         /* Mobile adjustments for alex section */
         @media only screen and (max-width: 480px) {
             .div11 {
@@ -879,9 +933,9 @@
 
         /* Create your own page - ENHANCED WITH CREATIVE GRADIENT ANIMATIONS */
         .create-page-button {
-            background: linear-gradient(135deg, #00c6ff, #0072ff, #7a36b1, #ff3377);
+            background: linear-gradient(90deg, #ff00cc, #3333ff, #00ffcc);
             background-size: 300% 300%;
-            animation: creativeBg 15s ease infinite alternate;
+            animation: cyberpunkGlow 8s ease infinite;
             color: white;
             border-radius: 20px;
             display: flex;
@@ -894,53 +948,138 @@
             padding: 0;
             text-decoration: none;
             font-weight: bold;
-            box-shadow: 0 6px 15px rgba(58, 12, 163, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 204, 0.5), 0 0 30px rgba(51, 51, 255, 0.3);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-position 0.5s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        @keyframes creativeBg {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
+        @keyframes cyberpunkGlow {
+            0% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 15px rgba(255, 0, 204, 0.5), 0 0 30px rgba(51, 51, 255, 0.3);
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 0 0 20px rgba(0, 255, 204, 0.5), 0 0 40px rgba(255, 0, 204, 0.3);
+            }
+            100% { 
+                background-position: 0% 50%;
+                box-shadow: 0 0 15px rgba(255, 0, 204, 0.5), 0 0 30px rgba(51, 51, 255, 0.3);
+            }
         }
 
         .create-page-button::before {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 25%),
-                        radial-gradient(circle at 70% 60%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 25%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.1) 2px,
+                    rgba(255, 255, 255, 0.1) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.1) 2px,
+                    rgba(255, 255, 255, 0.1) 4px
+                );
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .create-page-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            opacity: 0;
+            transform: skewX(-25deg);
         }
 
         .create-page-button:hover::before, .create-page-button.touch-hover::before {
             opacity: 1;
-            animation: creativeDots 5s infinite ease-in-out;
+            animation: cyberpunkGrid 5s linear infinite;
         }
 
-        @keyframes creativeDots {
-            0% { transform: translateX(-10%) translateY(-10%) scale(0.9); }
-            25% { transform: translateX(5%) translateY(5%) scale(1.1); }
-            50% { transform: translateX(10%) translateY(-5%) scale(1); }
-            75% { transform: translateX(-5%) translateY(10%) scale(1.1); }
-            100% { transform: translateX(-10%) translateY(-10%) scale(0.9); }
+        .create-page-button:hover::after, .create-page-button.touch-hover::after {
+            opacity: 1;
+            animation: cyberpunkSweep 2s infinite ease-in-out;
+        }
+
+        @keyframes cyberpunkGrid {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes cyberpunkSweep {
+            0% { left: -100%; opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { left: 200%; opacity: 0; }
         }
 
         .create-page-button:hover, .create-page-button.touch-hover {
             transform: translateY(-5px) scale(1.03);
-            box-shadow: 0 10px 25px rgba(58, 12, 163, 0.5);
+            box-shadow: 0 0 20px rgba(255, 0, 204, 0.8), 
+                        0 0 40px rgba(51, 51, 255, 0.5),
+                        0 0 60px rgba(0, 255, 204, 0.3);
         }
 
         .create-page-button:hover strong, .create-page-button.touch-hover strong {
             transform: scale(1.05);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 25px rgba(255, 255, 255, 0.7);
-            transition: all 0.3s ease;
+            text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc;
+            animation: textGlitch 2s infinite alternate;
+            letter-spacing: 1px;
         }
 
+        .create-page-button:hover .link-description, .create-page-button.touch-hover .link-description {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            animation: subtextPulse 2s infinite alternate;
+        }
+
+        @keyframes textGlitch {
+            0%, 100% {
+                text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc;
+                transform: translateX(0);
+            }
+            25% {
+                text-shadow: -1px 0 10px #ff00cc, 1px 0 20px #00ffcc, 0 0 30px #3333ff;
+                transform: translateX(-1px);
+            }
+            75% {
+                text-shadow: 1px 0 10px #00ffcc, -1px 0 20px #3333ff, 0 0 30px #ff00cc;
+                transform: translateX(1px);
+            }
+        }
+
+        @keyframes subtextPulse {
+            0% {
+                opacity: 0.8;
+                text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+            }
+        }
+        
         .create-page-button i {
             font-size: 0; /* Hide the icon */
             display: none;
@@ -1633,6 +1772,380 @@
             display: block;
             will-change: auto; /* Reduce GPU memory pressure */
         }
+
+        /* Daniela name cyberpunk animation */
+        @keyframes danielaTextGlitch {
+            0%, 100% {
+                text-shadow: none;
+                transform: translateX(0) translateY(0);
+            }
+            10% {
+                text-shadow: none;
+                transform: translateX(-2px) translateY(1px);
+            }
+            20% {
+                text-shadow: none;
+                transform: translateX(2px) translateY(0);
+            }
+            30% {
+                text-shadow: none;
+                transform: translateX(0) translateY(-1px);
+            }
+            40% {
+                text-shadow: none;
+                transform: translateX(1px) translateY(1px);
+            }
+            50% {
+                text-shadow: none;
+                transform: translateX(-1px) translateY(-1px);
+            }
+            60% {
+                text-shadow: none;
+                transform: translateX(0) translateY(1px);
+            }
+            70% {
+                text-shadow: none;
+                transform: translateX(-1px) translateY(0);
+            }
+            80% {
+                text-shadow: none;
+                transform: translateX(0) translateY(0);
+            }
+            90% {
+                text-shadow: none;
+                transform: translateX(2px) translateY(-1px);
+            }
+        }
+        
+        /* Bio text animation */
+        @keyframes bioTextPulse {
+            0% {
+                text-shadow: none;
+                transform: scale(1);
+                letter-spacing: 1px;
+            }
+            20% {
+                text-shadow: none;
+                transform: scale(1.01);
+                letter-spacing: 1.02px;
+            }
+            40% {
+                text-shadow: none;
+                transform: scale(1.02);
+                letter-spacing: 1.04px;
+            }
+            60% {
+                text-shadow: none;
+                transform: scale(1.01);
+                letter-spacing: 1.02px;
+            }
+            80% {
+                text-shadow: none;
+                transform: scale(1.005);
+                letter-spacing: 1.01px;
+            }
+            100% {
+                text-shadow: none;
+                transform: scale(1);
+                letter-spacing: 1px;
+            }
+        }
+        
+        /* New bio reveal animation */
+        @keyframes bioReveal {
+            0% {
+                clip-path: inset(0 50% 0 50%);
+                letter-spacing: 10px;
+                opacity: 0;
+                filter: blur(2px);
+            }
+            25% {
+                clip-path: inset(0 30% 0 30%);
+                letter-spacing: 6px;
+                opacity: 0.4;
+                filter: blur(1px);
+            }
+            50% {
+                clip-path: inset(0 10% 0 10%);
+                letter-spacing: 4px;
+                opacity: 0.8;
+                filter: blur(0px);
+            }
+            75% {
+                clip-path: inset(0 0 0 0);
+                letter-spacing: 3px;
+                opacity: 1;
+                filter: blur(0px);
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+                letter-spacing: 3px;
+                opacity: 1;
+                filter: blur(0px);
+            }
+        }
+        
+        /* Cursor blinking animation */
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Fade in animation for the second part of the text */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Typing animation */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; } /* Use 100% width instead of fixed pixel value */
+        }
+        
+        /* Gradient movement animation */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Add responsive styles for the CONTENT CREATOR text */
+        @media only screen and (max-width: 768px) {
+            .content-creator-text {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .content-creator-text {
+                font-size: 16px;
+                letter-spacing: 1px;
+            }
+            .bio {
+                font-size: 18px !important;
+                padding: 5px !important;
+            }
+            .blinking-cursor {
+                height: 18px !important;
+            }
+        }
+
+        /* Add responsive styles for the cyberpunk text and cursor */
+        @media only screen and (max-width: 768px) {
+            .bio span[style*="font-size: 32px"] {
+                font-size: 28px !important;
+            }
+            .blinking-cursor {
+                height: 28px !important;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            .bio span[style*="font-size: 20px"] {
+                font-size: 18px !important;
+            }
+            .blinking-cursor {
+                height: 18px !important;
+            }
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .bio span[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+            .blinking-cursor {
+                height: 16px !important;
+            }
+        }
+
+        /* Create a unique animation for the CONTENT CREATOR text */
+        @keyframes contentCreatorEffect {
+            0% {
+                color: white;
+                text-shadow: 0 0 10px #ff00cc, 0 0 15px #ff00cc;
+                transform: scale(1) skew(0deg);
+                letter-spacing: 1px;
+            }
+            25% {
+                color: #00ffcc;
+                text-shadow: 0 0 8px #00ffcc, 0 0 12px #00ffcc;
+                transform: scale(1.05) skew(1deg);
+                letter-spacing: 2px;
+            }
+            50% {
+                color: #3333ff;
+                text-shadow: 0 0 12px #3333ff, 0 0 18px #3333ff;
+                transform: scale(0.98) skew(-1deg);
+                letter-spacing: 0px;
+            }
+            75% {
+                color: #ff00cc;
+                text-shadow: 0 0 10px #ff00cc, 0 0 15px #ff00cc;
+                transform: scale(1.02) skew(0.5deg);
+                letter-spacing: 1.5px;
+            }
+            100% {
+                color: white;
+                text-shadow: 0 0 10px #ff00cc, 0 0 15px #ff00cc;
+                transform: scale(1) skew(0deg);
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Digital noise effect for content creator text */
+        @keyframes digitalNoise {
+            0%, 100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            10% {
+                opacity: 0.9;
+                transform: translateX(-1px);
+            }
+            25% {
+                opacity: 1;
+                transform: translateX(0.5px);
+            }
+            37% {
+                opacity: 0.95;
+                transform: translateX(-0.5px);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            62% {
+                opacity: 0.98;
+                transform: translateX(0.7px);
+            }
+            75% {
+                opacity: 0.9;
+                transform: translateX(-0.3px);
+            }
+            87% {
+                opacity: 0.98;
+                transform: translateX(0.2px);
+            }
+        }
+
+        /* Watermark cover styling - default for medium screens */
+        .watermark-cover {
+            display: none; /* Hide the original watermark cover */
+        }
+        
+        /* Responsive watermark cover */
+        @media only screen and (min-width: 1200px) {
+            .watermark-cover {
+                width: 220px;
+                height: 70px;
+            }
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .watermark-cover {
+                width: 140px;
+                height: 50px;
+            }
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .watermark-cover {
+                width: 120px;
+                height: 40px;
+            }
+        }
+
+        /* Fixed watermark cover styling */
+        .fixed-watermark-cover {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 350px; /* Much wider to cover the full "myLiveWallpapers.com" text */
+            height: 50px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
+            z-index: 999; /* Very high to ensure it's above everything */
+            pointer-events: none;
+        }
+        
+        /* Responsive watermark cover */
+        @media only screen and (min-width: 1440px) {
+            .fixed-watermark-cover {
+                width: 400px;
+                height: 60px;
+            }
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .fixed-watermark-cover {
+                width: 300px;
+                height: 40px;
+            }
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .fixed-watermark-cover {
+                width: 260px;
+                height: 35px;
+            }
+        }
+
+        /* Fixed watermark cover - left side */
+        .fixed-watermark-cover {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 350px;
+            height: 50px;
+            background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.9) 50%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%);
+            z-index: 999;
+            pointer-events: none;
+        }
+        
+        /* Fixed watermark cover - centered */
+        .fixed-watermark-cover-center {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 50px;
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.9) 80%, rgba(0,0,0,0) 100%);
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        /* Fixed watermark cover - full width for maximum coverage */
+        .fixed-watermark-cover-full {
+            display: none; /* Hide the previous gradient solution */
+        }
+        
+        /* Image-based watermark mask using border.png */
+        .watermark-border-mask {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px; /* Adjust height based on the border.png image */
+            background: url('border.png') repeat-x bottom center;
+            background-size: auto 100%;
+            z-index: 999;
+            pointer-events: none;
+        }
+        
+        /* Responsive watermark border mask */
+        @media only screen and (max-width: 768px) {
+            .watermark-border-mask {
+                height: 60px;
+            }
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .watermark-border-mask {
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1645,6 +2158,9 @@
 
     <!-- No overlay -->
 
+    <!-- Watermark covers - positioned to hide "myLiveWallpapers.com" -->
+    <div class="watermark-border-mask"></div>
+    
     <!-- Background audio -->
     <audio id="bgAudio" autoplay playsinline webkit-playsinline>
         <source src="audio/audio.mp3" type="audio/mpeg">
@@ -1655,8 +2171,18 @@
             <!-- Profile -->
             <div class="div13 profile" style="background: transparent; box-shadow: none;">
                 <img src="images/icon.png" alt="Daniela Armaș" class="profile-icon" onerror="this.style.display='none'">
-                <h1 style="background: linear-gradient(120deg, #ffffff 0%, #76c6ff 25%, #ffffff 35%, #5dacee 65%, #ffffff 75%, #76c6ff 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-fill-color: transparent; animation: nameShimmer 8s linear infinite, textGlow 2s infinite alternate, pulse 6s infinite ease-in-out; text-shadow: 0 0 15px rgba(93, 172, 238, 0.8), 0 0 25px rgba(93, 172, 238, 0.6), 2px 2px 2px rgba(0, 0, 0, 0.15), 0 8px 4px rgba(0, 0, 0, 0.1); font-family: 'Bodoni Moda', 'Playfair Display', serif; letter-spacing: 2px; font-weight: 600; font-size: 42px; -webkit-text-stroke: 1px rgba(93, 172, 238, 0.5); text-stroke: 1px rgba(93, 172, 238, 0.5); transform: perspective(500px) rotateX(10deg); transform-origin: center center; position: relative; padding: 10px 0;">Daniela Armaș</h1>
-                <p class="bio" style="background: linear-gradient(120deg, #ffd700 0%, #ffcc33 25%, #ffeeaa 50%, #ffcc33 75%, #ffd700 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-fill-color: transparent; animation: nameShimmer 10s linear infinite, textGlowGold 3s infinite ease-in-out, pulse 4s infinite ease-in-out; text-shadow: 0 0 10px rgba(255, 215, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.5); font-family: 'Bodoni Moda', 'Playfair Display', serif; letter-spacing: 1px; font-weight: 500; -webkit-text-stroke: 0.5px rgba(255, 215, 0, 0.5); text-stroke: 0.5px rgba(255, 215, 0, 0.5); position: relative; z-index: 2; margin-top: 8px; font-size: 26px; padding: 5px 0;">Graphic Designer & Content Creator</p>
+                <h1 style="color: white; font-family: 'Bodoni Moda', 'Playfair Display', serif; letter-spacing: 2px; font-weight: 600; font-size: 42px; position: relative; padding: 10px 0; text-shadow: 0 0 10px #ff00cc, 0 0 20px #3333ff, 0 0 30px #00ffcc; animation: danielaTextGlitch 3s infinite alternate;">Daniela Armaș</h1>
+                <div class="bio-container" style="width: 100%; text-align: center; margin: 10px auto 5px; position: relative; max-width: 100%;">
+                    <p class="bio" style="color: #f8f8f8; font-family: 'Burbank', sans-serif; text-transform: uppercase; letter-spacing: 3px; font-weight: 500; position: relative; z-index: 2; margin: 0 auto; font-size: 22px; padding: 8px 10px; text-align: center; width: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.1), rgba(51,51,255,0.1), rgba(255,0,204,0.1), rgba(0,0,0,0.1)); background-size: 300% 100%; animation: bioReveal 3s forwards, gradientMove 8s ease infinite; border-top: 1px solid rgba(255,255,255,0.15); border-bottom: 1px solid rgba(255,255,255,0.15);">
+                        <span style="display: inline-flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <span style="display: block; white-space: nowrap; text-align: center; margin-bottom: 4px; color: yellow; text-shadow: 0 0 8px rgba(255, 255, 0, 0.5); font-weight: 600; font-size: 16px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CONTENT</span>
+                            <span style="display: flex; align-items: center; justify-content: center; white-space: nowrap;">
+                                <span style="color: yellow; text-shadow: 0 0 8px rgba(255, 255, 0, 0.5); font-weight: 600; font-size: 16px; font-family: 'Bodoni Moda', 'Playfair Display', serif; animation: none;">CREATOR</span>
+                                <span class="blinking-cursor" style="display: inline-block; width: 2px; height: 16px; background-color: rgba(255, 255, 0, 0.7); margin-left: 4px; animation: cursorBlink 1.5s infinite; box-shadow: 0 0 5px rgba(255, 255, 0, 0.5);"></span>
+                            </span>
+                        </span>
+                    </p>
+                </div>
             </div>
             
             <!-- Rearranged links  -->
